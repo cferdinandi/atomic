@@ -21,16 +21,25 @@
     }
     return [result, req];
   };
+  
+  var noOp = function () {};
 
-  var xhr = function (type, url, data) {
+  var xhr = function (type, url, data, options) {
+    options || (options = {});
+    options.contentType = options.contentType || 'application/x-www-form-urlencoded';
+    options.url         = options.url         || url;
+    options.type        = options.type        || type;
+    options.type        = options.type        || "GET"; // default if type passed neither directly, nor in options hash.
+    options.data        = options.data        || data;
+    
     var methods = {
-      success: function () {},
-      error: function () {}
+      success: options.success || noOp,
+      error  : options.error   || noOp
     };
     var XHR = root.XMLHttpRequest || ActiveXObject;
     var request = new XHR('MSXML2.XMLHTTP.3.0');
-    request.open(type, url, true);
-    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    request.open(options.type, options.url, true);
+    request.setRequestHeader('Content-type', options.contentType);
     request.onreadystatechange = function () {
       if (request.readyState === 4) {
         if (request.status === 200) {
@@ -40,7 +49,7 @@
         }
       }
     };
-    request.send(data);
+    request.send(options.data);
     return {
       success: function (callback) {
         methods.success = callback;
@@ -53,21 +62,55 @@
     };
   };
 
-  exports['get'] = function (src) {
-    return xhr('GET', src);
+  exports['get'] = function (src, options) {
+    if (!options && (src !== null && typeof src === 'object'))
+    {
+      options = src;
+      src = null;
+    }
+    return xhr('GET', src, null, options);
   };
 
-  exports['put'] = function (url, data) {
-    return xhr('PUT', url, data);
+  exports['put'] = function (url, data, options) {
+    if (!data && !options && (url !== null && typeof url === 'object'))
+    {
+      options = url;
+      url = null;
+    }
+    return xhr('PUT', url, data, options);
   };
 
-  exports['post'] = function (url, data) {
-    return xhr('POST', url, data);
+  exports['post'] = function (url, data, options) {
+    if (!data && !options && (url !== null && typeof url === 'object'))
+    {
+      options = url;
+      url = null;
+    }
+    return xhr('POST', url, data, options);
   };
 
-  exports['delete'] = function (url) {
-    return xhr('DELETE', url);
+  exports['delete'] = function (url, options) {
+    if (!options && (url !== null && typeof url === 'object'))
+    {
+      options = url;
+      url = null;
+    }
+    return xhr('DELETE', url, null, options);
   };
+  
+  exports['ajax'] = function (url, method, data, options) {
+    if (!method && !data && !options && (url !== null && typeof url === 'object'))
+    {
+      options = url;
+      url = null;
+    }
+    else if (!data && !options && (method !== null && typeof method === 'object'))
+    {
+      options = method;
+      method = null;
+    }
+    return xhr(method, url, data, options);
+  }
 
   return exports;
 
