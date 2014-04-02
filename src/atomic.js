@@ -33,7 +33,7 @@
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.onreadystatechange = function () {
       if (request.readyState === 4) {
-        if (request.status === 200) {
+        if (request.status >= 200 && request.status < 300) {
           methods.success.apply(methods, parse(request));
         } else {
           methods.error.apply(methods, parse(request));
