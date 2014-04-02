@@ -41,16 +41,18 @@
       }
     };
     request.send(data);
-    return {
+    var callbacks = {
       success: function (callback) {
         methods.success = callback;
-        return methods;
+        return callbacks;
       },
       error: function (callback) {
         methods.error = callback;
-        return methods;
+        return callbacks;
       }
     };
+
+    return callbacks;
   };
 
   exports['get'] = function (src) {
