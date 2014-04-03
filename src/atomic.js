@@ -25,11 +25,11 @@
   var noOp = function () {};
 
   var xhr = function (type, url, data, options) {
-    options || (options = {});
+    options             = (options) ? options : {};
     options.contentType = options.contentType || 'application/x-www-form-urlencoded';
     options.url         = options.url         || url;
     options.type        = options.type        || type;
-    options.type        = options.type        || "GET"; // default if type passed neither directly, nor in options hash.
+    options.type        = options.type        || 'GET'; // default if type passed neither directly, nor in options hash.
     options.data        = options.data        || data;
     
     var methods = {
@@ -110,7 +110,7 @@
       method = null;
     }
     return xhr(method, url, data, options);
-  }
+  };
 
   return exports;
 
