@@ -62,40 +62,20 @@
     };
   };
 
-  exports['get'] = function (src, options) {
-    if (!options && (src !== null && typeof src === 'object'))
-    {
-      options = src;
-      src = null;
-    }
-    return xhr('GET', src, null, options);
+  exports['get'] = function (url, options) {
+    return xhr(url, 'GET', null, options);
   };
 
   exports['put'] = function (url, data, options) {
-    if (!data && !options && (url !== null && typeof url === 'object'))
-    {
-      options = url;
-      url = null;
-    }
-    return xhr('PUT', url, data, options);
+    return exports.ajax(url, 'PUT', data, options);
   };
 
   exports['post'] = function (url, data, options) {
-    if (!data && !options && (url !== null && typeof url === 'object'))
-    {
-      options = url;
-      url = null;
-    }
-    return xhr('POST', url, data, options);
+    return exports.ajax(url, 'POST', data, options);
   };
 
   exports['delete'] = function (url, options) {
-    if (!options && (url !== null && typeof url === 'object'))
-    {
-      options = url;
-      url = null;
-    }
-    return xhr('DELETE', url, null, options);
+    return exports.ajax(url, 'DELETE', null, options);
   };
   
   exports['ajax'] = function (url, method, data, options) {
