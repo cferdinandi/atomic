@@ -63,7 +63,7 @@
   };
 
   exports['get'] = function (url, options) {
-    return xhr(url, 'GET', null, options);
+    return exports.ajax(url, 'GET', null, options);
   };
 
   exports['put'] = function (url, data, options) {
