@@ -25,33 +25,40 @@
 
   var xhr = function (type, url, data) {
     var methods = {
-      success: function () {},
-      error: function () {}
+      success: [],
+      error: []
     };
     var XHR = root.XMLHttpRequest || ActiveXObject;
     var request = new XHR('MSXML2.XMLHTTP.3.0');
     request.open(type, url, true);
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.onreadystatechange = function () {
+      var i;
       if (request.readyState === 4) {
-        if (request.status === 200) {
-          methods.success.apply(methods, parse(request));
+        if (request.status >= 200 && request.status < 300) {
+          for (i = 0; i < methods.success.length; i++) {
+            methods.success[i].apply(methods, parse(request));
+          }
         } else {
-          methods.error.apply(methods, parse(request));
+          for (i = 0; i < methods.error.length; i++) {
+            methods.error[i].apply(methods, parse(request));
+          }
         }
       }
     };
     request.send(data);
-    return {
+    var callbacks = {
       success: function (callback) {
-        methods.success = callback;
-        return methods;
+        methods.success.push(callback);
+        return callbacks;
       },
       error: function (callback) {
-        methods.error = callback;
-        return methods;
+        methods.error.push(callback);
+        return callbacks;
       }
     };
+
+    return callbacks;
   };
 
   exports['get'] = function (src) {
