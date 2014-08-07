@@ -34,7 +34,8 @@
   var xhr = function (type, url, data, query) {
     var methods = {
       success: function () {},
-      error: function () {}
+      error: function () {},
+      always: function () {}
     };
     var XHR = root.XMLHttpRequest || ActiveXObject;
     var request = new XHR('MSXML2.XMLHTTP.3.0');
@@ -48,6 +49,7 @@
         } else {
           methods.error.apply(methods, parse(request));
         }
+        methods.always.apply();
       }
     };
     request.send(parseParams(data));
@@ -58,6 +60,10 @@
       },
       error: function (callback) {
         methods.error = callback;
+        return callbacks;
+      },
+      always: function (callback) {
+        methods.always = callback;
         return callbacks;
       }
     };
