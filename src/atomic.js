@@ -22,14 +22,24 @@
     return [result, req];
   };
 
-  var xhr = function (type, url, data) {
+  var parseParams = function (data) {
+    var key,
+      params = [];
+    for(key in data){
+      params.push(key+'='+data[key]);
+    }
+    return params.join('&');
+  };
+
+  var xhr = function (type, url, data, query) {
     var methods = {
       success: function () {},
       error: function () {}
     };
     var XHR = root.XMLHttpRequest || ActiveXObject;
     var request = new XHR('MSXML2.XMLHTTP.3.0');
-    request.open(type, url, true);
+    var newURL = (query) ? url+'?'+parseParams(query) : url;
+    request.open(type, newURL, true);
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.onreadystatechange = function () {
       if (request.readyState === 4) {
@@ -40,7 +50,7 @@
         }
       }
     };
-    request.send(data);
+    request.send(parseParams(data));
     var callbacks = {
       success: function (callback) {
         methods.success = callback;
@@ -55,16 +65,16 @@
     return callbacks;
   };
 
-  exports['get'] = function (src) {
-    return xhr('GET', src);
+  exports['get'] = function (src, query) {
+    return xhr('GET', src, {}, query);
   };
 
   exports['put'] = function (url, data) {
     return xhr('PUT', url, data);
   };
 
-  exports['post'] = function (url, data) {
-    return xhr('POST', url, data);
+  exports['post'] = function (url, data, query) {
+    return xhr('POST', url, data, query);
   };
 
   exports['delete'] = function (url) {
