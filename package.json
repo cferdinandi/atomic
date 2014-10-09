@@ -6,6 +6,7 @@
     "type": "git",
     "url": "http://github.com/toddmotto/atomic.git"
   },
+  "main": "./src/atomic.js",
   "homepage": "github.com/toddmotto/atomic",
   "version": "1.0.0",
   "devDependencies": {
