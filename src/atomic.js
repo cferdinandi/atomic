@@ -40,7 +40,7 @@
     
     // prevent it from sending [Object object] or some such
     // try-catch because JSON.parse will fail with cyclic objects
-    if (typeof data === 'object' && !(data instanceof ArrayBuffer || data instanceof Blob || data instanceof Document || data instanceof FormData) {
+    if (typeof data === 'object' && !(data instanceof ArrayBuffer || data instanceof Blob || data instanceof Document || data instanceof FormData)) {
       try {
         data = JSON.stringify(data);
         contentType = 'application/json;charset=UTF-8';
