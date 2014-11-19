@@ -43,7 +43,7 @@
     
     var XHR = root.XMLHttpRequest || ActiveXObject;
   
-    contentType = (contentType && typeof.contentType === 'string' && /^.+\/.+$/.test(contentType)) ? contentType : application/x-www-form-urlencoded';
+    contentType = (contentType && typeof.contentType === 'string' && /^.+\/.+$/.test(contentType)) ? contentType : 'application/x-www-form-urlencoded';
     
     // prevent it from sending [Object object] or some such
     // try-catch because JSON.parse will fail with cyclic objects
