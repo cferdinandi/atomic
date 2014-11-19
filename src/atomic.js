@@ -22,13 +22,6 @@
     return [result, req];
   };
   
-  //shim JSON, if not available. will fall back to default behaviour
-  var JSON = root.JSON || {
-    stringify: function(arg) {
-      return arg.toString ? arg.toString() : typeof arg;
-    }
-  };
-  
   // need these for type checking, instanceof throws referenceError if it does not know a constructor
   var ArrayBuffer = ArrayBuffer || function () {};
   var Blob = Blob || function () {};
@@ -49,10 +42,13 @@
     // try-catch because JSON.parse will fail with cyclic objects
     if (typeof data === 'object' && !(data intanceof ArrayBuffer || data intanceof Blob || data intanceof Document || data intanceof FormData) {
       try {
-        data = JSON.parse(data);
+        data = JSON.stringify(data);
         contentType = 'application/json;charset=UTF-8';
       } catch(e) {
-        methods.error.call(e);
+        if (e instanceof TypeError && typeof JSON !== 'undefined') {
+          //cyclic object passed, call error handler
+          methods.error.call(e);
+        } // else do nothing, failover to standard bahaviour
       }
     }
     
