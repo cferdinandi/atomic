@@ -17,7 +17,7 @@ atomic.get('/endpoint')
 #### atomic.post()
 Use `atomic.post()` to make a `POST`. Success and error callbacks will return the `xhr.responseText` and full `xhr` as arguments one and two.
 ```js
-atomic.post('/endpoint'[, data])
+atomic.post('/endpoint', [data])
 .success(function (data, xhr) {
   
 })
