@@ -29,7 +29,7 @@ atomic.post('/endpoint', [data])
 #### atomic.put()
 Use `atomic.put()` to make a `PUT`. Success and error callbacks will return the `xhr.responseText` and full `xhr` as arguments one and two.
 ```js
-atomic.put('/endpoint'[, data])
+atomic.put('/endpoint', [data])
 .success(function (data, xhr) {
   
 })
