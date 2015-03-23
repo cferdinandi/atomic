@@ -1,4 +1,4 @@
-/*! atomic v1.0.0 | (c) 2014 @toddmotto | github.com/toddmotto/atomic */
+/*! atomic v1.0.0 | (c) 2015 @toddmotto | github.com/toddmotto/atomic */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(factory);
@@ -23,18 +23,18 @@
     return [result, req];
   };
 
-  var xhr = function (type, url, data) {
+  var xhr = function (type, url, data, sync) {
     var methods = {
       success: function () {},
       error: function () {}
     };
     var XHR = root.XMLHttpRequest || ActiveXObject;
     var request = new XHR('MSXML2.XMLHTTP.3.0');
-    request.open(type, url, true);
+    request.open(type, url, sync || false);
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.onreadystatechange = function () {
       if (request.readyState === 4) {
-        if (request.status === 200) {
+        if (request.status >= 200 && request.status < 300) {
           methods.success.apply(methods, parse(request));
         } else {
           methods.error.apply(methods, parse(request));
@@ -42,32 +42,34 @@
       }
     };
     request.send(data);
-    return {
+    var callbacks = {
       success: function (callback) {
         methods.success = callback;
-        return methods;
+        return callbacks;
       },
       error: function (callback) {
         methods.error = callback;
-        return methods;
+        return callbacks;
       }
     };
+
+    return callbacks;
   };
 
-  exports['get'] = function (src) {
-    return xhr('GET', src);
+  exports['get'] = function (src, sync) {
+    return xhr('GET', src, undefined, sync);
   };
 
-  exports['put'] = function (url, data) {
-    return xhr('PUT', url, data);
+  exports['put'] = function (url, data, sync) {
+    return xhr('PUT', url, data, sync);
   };
 
-  exports['post'] = function (url, data) {
-    return xhr('POST', url, data);
+  exports['post'] = function (url, data, sync) {
+    return xhr('POST', url, data, sync);
   };
 
-  exports['delete'] = function (url) {
-    return xhr('DELETE', url);
+  exports['delete'] = function (url, sync) {
+    return xhr('DELETE', url, undefined, sync);
   };
 
   return exports;
