@@ -22,14 +22,14 @@
     return [result, req];
   };
 
-  var xhr = function (type, url, data) {
+  var xhr = function (type, url, data, sync) {
     var methods = {
       success: function () {},
       error: function () {}
     };
     var XHR = root.XMLHttpRequest || ActiveXObject;
     var request = new XHR('MSXML2.XMLHTTP.3.0');
-    request.open(type, url, true);
+    request.open(type, url, sync || false);
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.onreadystatechange = function () {
       if (request.readyState === 4) {
@@ -55,20 +55,20 @@
     return callbacks;
   };
 
-  exports['get'] = function (src) {
-    return xhr('GET', src);
+  exports['get'] = function (src, sync) {
+    return xhr('GET', src, undefined, sync);
   };
 
-  exports['put'] = function (url, data) {
-    return xhr('PUT', url, data);
+  exports['put'] = function (url, data, sync) {
+    return xhr('PUT', url, data, sync);
   };
 
-  exports['post'] = function (url, data) {
-    return xhr('POST', url, data);
+  exports['post'] = function (url, data, sync) {
+    return xhr('POST', url, data, sync);
   };
 
-  exports['delete'] = function (url) {
-    return xhr('DELETE', url);
+  exports['delete'] = function (url, sync) {
+    return xhr('DELETE', url, undefined, sync);
   };
 
   return exports;
