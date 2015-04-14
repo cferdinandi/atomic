@@ -1,4 +1,4 @@
-/*! atomic v1.0.0 | (c) 2014 @toddmotto | github.com/toddmotto/atomic */
+/*! atomic v1.0.0 | (c) 2015 @toddmotto | https://github.com/toddmotto/atomic */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(factory);
@@ -34,7 +34,7 @@
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.onreadystatechange = function () {
       if (request.readyState === 4) {
-        if (request.status === 200) {
+        if (request.status >= 200 && request.status < 300) {
           methods.success.apply(methods, parse(request));
         } else {
           methods.error.apply(methods, parse(request));
@@ -42,16 +42,18 @@
       }
     };
     request.send(data);
-    return {
+    var callbacks = {
       success: function (callback) {
         methods.success = callback;
-        return methods;
+        return callbacks;
       },
       error: function (callback) {
         methods.error = callback;
-        return methods;
+        return callbacks;
       }
     };
+
+    return callbacks;
   };
 
   exports['get'] = function (src) {
