@@ -1,4 +1,4 @@
-# atomic.js [![Build Status](https://travis-ci.org/toddmotto/atomic.svg)](https://travis-ci.org/toddmotto/atomic)
+# atomic.js [![Build Status](https://travis-ci.org/renehernandez/atomic.svg)](https://travis-ci.org/renehernandez/atomic)
 
 atomic is a 2KB standalone module for getting a supported XHR instance, making HTTP requests and handling success/error/always callbacks. atomic has a very clean and readable syntax using Object chaining for success, error and always callbacks functions, as well as automatic JSON parsing when JSON is returned. atomic works in IE6+, but uses native JSON parsing which works in IE8+, so -IE8 won't parse the response.
 
