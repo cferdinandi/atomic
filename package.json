@@ -6,6 +6,9 @@
     "type": "git",
     "url": "https://github.com/toddmotto/atomic.git"
   },
+  "scripts": {
+    "test": "grunt jasmine"
+  },
   "main": "./src/atomic.js",
   "author": "Todd Motto",
   "homepage": "https://github.com/toddmotto/atomic",
