@@ -63,7 +63,7 @@ describe('atomic', function () {
       setTimeout(function() {
         expect(result).toEqual(3);
         done();
-      }, 10);
+      }, 100);
     });
   });
 
