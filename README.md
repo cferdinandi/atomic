@@ -112,6 +112,7 @@ Ensure you're using the files from the `dist` directory (contains compiled produ
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using Grunt.
 
 ## Release history
-
 - 1.1.0
+  - Added always callback and ContentType option
+- 1.0.0
   - Initial release
