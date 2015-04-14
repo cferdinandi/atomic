@@ -11,6 +11,7 @@ describe('atomic', function () {
     beforeEach(function () {
       spyOn(XMLHttpRequest.prototype, 'open').and.callThrough();
       spyOn(XMLHttpRequest.prototype, 'send');
+      spyOn(XMLHttpRequest.prototype, 'setRequestHeader');
     });
 
     it('should open an XMLHttpRequest', function () {
@@ -18,7 +19,8 @@ describe('atomic', function () {
       .success(function (data, xhr) {
       })
       .error(function (data, xhr) {
-
+      })
+      .always(function(data, xhr) {
       });
       expect(XMLHttpRequest.prototype.open).toHaveBeenCalled();
     });
@@ -32,10 +34,20 @@ describe('atomic', function () {
       expect(XMLHttpRequest.prototype.send).toHaveBeenCalled();
     });
 
+    it('should set request header', function(){
+       atomic.get('')
+      .success(function (data, xhr) {
+      })
+      .error(function (data, xhr) {
+      })
+      .always(function(data, xhr){
+      }) ;
+      expect(XMLHttpRequest.prototype.setRequestHeader).toHaveBeenCalled();
+    });
+
   });
 
   describe('always', function() {
-
 
     it('should be called last after success or error', function(done) {
       var result = 0;
@@ -53,6 +65,29 @@ describe('atomic', function () {
         done();
       }, 10);
     });
+  });
+
+  describe('contentType', function(){
+
+    beforeEach(function(){
+      spyOn(XMLHttpRequest.prototype, 'setRequestHeader');
+    });
+
+    it('should use "application/x-www-form-urlencoded" as default Content-type', function(){
+      atomic.get('');
+
+      expect(XMLHttpRequest.prototype.setRequestHeader)
+          .toHaveBeenCalledWith('Content-type', 'application/x-www-form-urlencoded');
+    });
+
+    it('should set Content-type', function() {
+      atomic.setContentType('application/json');
+      atomic.get('');
+
+      expect(XMLHttpRequest.prototype.setRequestHeader)
+          .toHaveBeenCalledWith('Content-type', 'application/json');
+    });
+
   });
 
 });
