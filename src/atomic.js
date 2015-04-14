@@ -25,19 +25,23 @@
   var xhr = function (type, url, data) {
     var methods = {
       success: function () {},
-      error: function () {}
+      error: function () {},
+      always: function () {}
     };
     var XHR = root.XMLHttpRequest || ActiveXObject;
     var request = new XHR('MSXML2.XMLHTTP.3.0');
     request.open(type, url, true);
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.onreadystatechange = function () {
+      var req;
       if (request.readyState === 4) {
+        req = parse(request);
         if (request.status >= 200 && request.status < 300) {
-          methods.success.apply(methods, parse(request));
+          methods.success.apply(methods, req);
         } else {
-          methods.error.apply(methods, parse(request));
+          methods.error.apply(methods, req);
         }
+        methods.always.apply(methods, req);
       }
     };
     request.send(data);
@@ -48,6 +52,10 @@
       },
       error: function (callback) {
         methods.error = callback;
+        return callbacks;
+      },
+      always: function (callback) {
+        methods.always = callback;
         return callbacks;
       }
     };
