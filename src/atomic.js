@@ -63,6 +63,13 @@
       always: function (callback) {
         methods.always = callback;
         return atomXHR;
+      },
+      abort: function () {
+        // only if request is still not loaded, we should abort it
+        if (request && request.readyState !== 4) {
+          request.onreadystatechange = null;
+          request.abort();
+        }
       }
     };
 

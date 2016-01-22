@@ -47,6 +47,27 @@ describe('atomic', function () {
 
   });
 
+  describe('abort', function() {
+
+    it('should be able to abort the request', function(){
+      var result = 0;
+      var req = atomic.get('https://freegeoip.net')
+        .always(function(data, xhr) {
+          result = 3;
+        })
+        .success(function(data, xhr) {
+          result = 1;
+        })
+        .error(function(data, xhr) {
+          result = 2;
+        });
+
+      req.abort();
+      expect(result).toBe(0);
+    });
+
+  })
+
   describe('always', function() {
 
     it('should be called last after success or error', function(done) {
@@ -55,7 +76,7 @@ describe('atomic', function () {
           result = 3;
         })
         .success(function(data, xhr) {
-          result  = 1;
+          result = 1;
         })
         .error(function(data, xhr) {
           result  = 2;
