@@ -62,6 +62,12 @@ atomic.delete('/endpoint')
 });
 ```
 
+#### atomic.jsonp()
+Use `atomic.jsonp()` to make a JSONP request.
+```js
+atomic.jsonp('/endpoint', 'callbackName');
+```
+
 #### atomic.setContentType()
 Use `atomic.setContentType()` to change the **Content-type** request header option of the XHR instance. The default **Content-type** option is *application/x-www-form-urlencoded*.
 
