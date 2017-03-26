@@ -1,13 +1,13 @@
-/*! atomic v1.0.0 | (c) 2015 @toddmotto | https://github.com/toddmotto/atomic */
+/*! atomic v1.2.0 | (c) 2017 @toddmotto | https://github.com/toddmotto/atomic | MIT */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
-    define(factory);
+    define([], factory(root));
   } else if (typeof exports === 'object') {
-    module.exports = factory;
+    module.exports = factory(root);
   } else {
     root.atomic = factory(root);
   }
-})(this, function (root) {
+})(typeof global !== 'undefined' ? global : this.window || this.global, (function (root) {
 
   'use strict';
 
@@ -25,6 +25,19 @@
       result = req.responseText;
     }
     return [result, req];
+  };
+
+  var param = function (obj) {
+    var encodedString = '';
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        if (encodedString.length > 0) {
+          encodedString += '&';
+        }
+        encodedString += encodeURI(prop + '=' + obj[prop]);
+      }
+    }
+    return encodedString;
   };
 
   var xhr = function (type, url, data) {
@@ -50,7 +63,7 @@
         methods.always.apply(methods, req);
       }
     };
-    request.send(data);
+    request.send(param(data));
 
     var atomXHR = {
       success: function (callback) {
@@ -70,6 +83,23 @@
     return atomXHR;
   };
 
+  var jsonp = function (url, callback, data) {
+    // Create script with url and callback
+    var ref = root.document.getElementsByTagName( 'script' )[ 0 ];
+    var script = root.document.createElement( 'script' );
+    data = data || {};
+    data.callback = callback;
+    script.src = url + (url.indexOf( '?' ) + 1 ? '&' : '?') + param(data);
+
+    // Insert script tag into the DOM (append to <head>)
+    ref.parentNode.insertBefore( script, ref );
+
+    // After the script is loaded (and executed), remove it
+    script.onload = function () {
+      this.remove();
+    };
+  };
+
   exports.get = function (src) {
     return xhr('GET', src);
   };
@@ -86,10 +116,14 @@
     return xhr('DELETE', url);
   };
 
+  exports.jsonp = function (url, callback, data) {
+    return jsonp(url, callback, data);
+  };
+
   exports.setContentType = function(value) {
     config.contentType = value;
   };
 
   return exports;
 
-});
+}));

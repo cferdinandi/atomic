@@ -62,6 +62,12 @@ atomic.delete('/endpoint')
 });
 ```
 
+#### atomic.jsonp()
+Use `atomic.jsonp()` to make a JSONP request.
+```js
+atomic.jsonp('/endpoint', 'callbackName'[, data]);
+```
+
 #### atomic.setContentType()
 Use `atomic.setContentType()` to change the **Content-type** request header option of the XHR instance. The default **Content-type** option is *application/x-www-form-urlencoded*.
 
@@ -95,15 +101,15 @@ Ensure you're using the files from the `dist` directory (contains compiled produ
   <script src="dist/atomic.js"></script>
   <script>
   atomic.get('/endpoint')
-  .success(function (data, xhr) {
+    .success(function (data, xhr) {
 
-  })
-  .error(function (data, xhr) {
+    })
+    .error(function (data, xhr) {
 
-  })
-  .always(function (data, xhr) {
+    })
+    .always(function (data, xhr) {
 
-  });
+    });
   </script>
 </body>
 ```
@@ -112,6 +118,11 @@ Ensure you're using the files from the `dist` directory (contains compiled produ
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using Grunt.
 
 ## Release history
+- 1.2.0
+  - Added JSONP support
+  - Fixed UMD header
+  - Added param() method to convert data object into query string parameters
+  - Converted from Grunt to gulp.js
 - 1.1.0
   - Added always callback and ContentType option
 - 1.0.0
