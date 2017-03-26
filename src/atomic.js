@@ -122,6 +122,10 @@
   exports.setContentType = function(value) {
     config.contentType = value;
   };
+  
+  exports.setHeader = function(key, value) {
+    config[key] = value;
+  };
 
   return exports;
 
