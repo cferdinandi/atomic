@@ -26,6 +26,19 @@
     return [result, req];
   };
 
+  var param = function (obj) {
+    var encodedString = '';
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        if (encodedString.length > 0) {
+          encodedString += '&';
+        }
+        encodedString += encodeURI(prop + '=' + obj[prop]);
+      }
+    }
+    return encodedString;
+  };
+
   var xhr = function (type, url, data) {
     var methods = {
       success: function () {},
@@ -49,7 +62,7 @@
         methods.always.apply(methods, req);
       }
     };
-    request.send(data);
+    request.send(param(data));
 
     var atomXHR = {
       success: function (callback) {
@@ -69,11 +82,13 @@
     return atomXHR;
   };
 
-  var jsonp = function (url, callback) {
+  var jsonp = function (url, callback, data) {
     // Create script with url and callback
     var ref = root.document.getElementsByTagName( 'script' )[ 0 ];
     var script = root.document.createElement( 'script' );
-    script.src = url + (url.indexOf( '?' ) + 1 ? '&' : '?') + 'callback=' + callback;
+    data = data || {};
+    data.callback = callback;
+    script.src = url + (url.indexOf( '?' ) + 1 ? '&' : '?') + param(data);
 
     // Insert script tag into the DOM (append to <head>)
     ref.parentNode.insertBefore( script, ref );
@@ -100,8 +115,8 @@
     return xhr('DELETE', url);
   };
 
-  exports.jsonp = function (url, callback) {
-    return jsonp(url, callback);
+  exports.jsonp = function (url, callback, data) {
+    return jsonp(url, callback, data);
   };
 
   exports.setContentType = function(value) {
