@@ -1,4 +1,4 @@
-/*! atomic v1.2.0 | (c) 2017 @toddmotto | https://github.com/toddmotto/atomic | MIT */
+/*! atomic v1.3.0 | (c) 2017 @toddmotto | https://github.com/toddmotto/atomic | MIT */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory(root));
@@ -14,11 +14,15 @@
   var exports = {};
 
   var config = {
-    contentType: 'application/x-www-form-urlencoded'
+    contentType: 'application/x-www-form-urlencoded',
+    responseType: 'text'
   };
 
   var parse = function (req) {
     var result;
+    if (config.responseType !== 'text' && config.responseType !== '') {
+      return [req.response, req];
+    }
     try {
       result = JSON.parse(req.responseText);
     } catch (e) {
@@ -51,6 +55,7 @@
 
     request.open(type, url, true);
     request.setRequestHeader('Content-type', config.contentType);
+    request.responseType = config.responseType;
     request.onreadystatechange = function () {
       var req;
       if (request.readyState === 4) {
@@ -122,6 +127,10 @@
 
   exports.setContentType = function(value) {
     config.contentType = value;
+  };
+
+  exports.setResponseType = function(value) {
+    config.responseType = value;
   };
 
   return exports;

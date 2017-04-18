@@ -85,6 +85,23 @@ atomic.get('/endpoint') // this request will use application/json as Content-typ
 });
 ```
 
+#### atomic.setResponseType()
+Use `atomic.setResponseType()` to change the **responseType** property of the XHR instance. The default **responseType** property is *text*.
+
+```js
+atomic.setContentType('document');
+atomic.get('/endpoint') // this request will use document as responseType
+.success(function (data, xhr) {
+
+})
+.error(function (data, xhr) {
+
+})
+.always(function (data, xhr) {
+
+});
+```
+
 ## Installing with Bower
 Use the repository hook:
 
@@ -118,6 +135,8 @@ Ensure you're using the files from the `dist` directory (contains compiled produ
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using Grunt.
 
 ## Release history
+- 1.3.0
+  - Added responseType option
 - 1.2.0
   - Added JSONP support
   - Fixed UMD header
