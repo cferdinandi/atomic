@@ -51,6 +51,7 @@
 
     request.open(type, url, true);
     request.setRequestHeader('Content-type', config.contentType);
+	request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.onreadystatechange = function () {
       var req;
       if (request.readyState === 4) {
