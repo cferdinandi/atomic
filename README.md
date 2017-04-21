@@ -31,7 +31,7 @@ Pass in the requested URL, and optionally, the request type. Defaults to `GET`.
 
 The `success`, `error`, and `always` callbacks run when the request is successful, when it fails, and either way, respectively. They accept the `responseText` (`data`) and full response (`xhr`) as arguments. All three callbacks are optional.
 
-```html
+```js
 // A GET request
 atomic.ajax({
 	url: '/endpoint.com'
@@ -108,7 +108,7 @@ Make sure these are installed first.
 
 Atomic includes smart defaults and works right out of the box. You can pass options into Atomic through the `ajax()` function:
 
-```javascript
+```js
 atomic.ajax({
 	type: 'GET', // the request type
 	url: null, // the endpoint for your request
