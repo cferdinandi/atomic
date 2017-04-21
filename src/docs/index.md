@@ -1,57 +1,75 @@
-<p>
-	<strong>Linear</strong><br>
-	<a data-scroll data-options='{ "easing": "linear" }' href="#bazinga">Linear (no other options)</a><br>
-</p>
+Atomic is already loaded on this page. See it in action by copy/pasting some of the samples below into the Console window in Developer Tools.
 
-<p>
-	<strong>Ease-In</strong><br>
-	<a data-scroll data-options='{ "easing": "easeInQuad" }' href="#bazinga">Quad</a><br>
-	<a data-scroll data-options='{ "easing": "easeInCubic" }' href="#bazinga">Cubic</a><br>
-	<a data-scroll data-options='{ "easing": "easeInQuart" }' href="#bazinga">Quart</a><br>
-	<a data-scroll data-options='{ "easing": "easeInQuint" }' href="#bazinga">Quint</a>
-</p>
+## `GET`
 
-<p>
-	<strong>Ease-In-Out</strong><br>
-	<a data-scroll data-options='{ "easing": "easeInOutQuad" }' href="#bazinga">Quad</a><br>
-	<a data-scroll data-options='{ "easing": "easeInOutCubic" }' href="#bazinga">Cubic</a><br>
-	<a data-scroll data-options='{ "easing": "easeInOutQuart" }' href="#bazinga">Quart</a><br>
-	<a data-scroll data-options='{ "easing": "easeInOutQuint" }' href="#bazinga">Quint</a>
-</p>
+```javascript
+atomic.ajax({
+	url: 'https://jsonplaceholder.typicode.com/posts'
+})
+	.success(function (data, xhr) {
+		// What do when the request is successful
+		console.log('SUCCESS!');
+		console.log('xhr.textResponse:');
+		console.log(data);
+		console.log('xhr:');
+		console.log(xhr);
+	})
+	.error(function () {
+		// What do when the request fails
+		console.log( 'The request failed!' );
+	})
+	.always(function (data, xhr) {
+		// Code that should run regardless of the request status
+		console.log('This always runs...');
+	});
+```
 
-<p>
-	<strong>Ease-Out</strong><br>
-	<a data-scroll data-options='{ "easing": "easeOutQuad" }' href="#bazinga">Quad</a><br>
-	<a data-scroll data-options='{ "easing": "easeOutCubic" }' href="#bazinga">Cubic</a><br>
-	<a data-scroll data-options='{ "easing": "easeOutQuart" }' href="#bazinga">Quart</a><br>
-	<a data-scroll data-options='{ "easing": "easeOutQuint" }' href="#bazinga">Quint</a>
-</p>
+## `POST`
 
-<p>
-	.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>
-	.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>
-	.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.
-</p>
+```javascript
+atomic.ajax({
+	type: 'POST',
+	url: 'http://jsonplaceholder.typicode.com/posts',
+	data: {
+		title: 'foo',
+		body: 'bar',
+		userId: 1
+	}
+})
+	.success(function (data, xhr) {
+		// What do when the request is successful
+		console.log('SUCCESS!');
+		console.log('xhr.textResponse:');
+		console.log(data);
+		console.log('xhr:');
+		console.log(xhr);
+	})
+	.error(function () {
+		// What do when the request fails
+		console.log( 'The request failed!' );
+	})
+	.always(function (data, xhr) {
+		// Code that should run regardless of the request status
+		console.log('This always runs...');
+	});
+```
 
-<p>
-	<strong>Non-ASCII Characters</strong><br>
-	<a data-scroll href="#中文">中文</a>
-</p>
+## JSONP
 
-<p>
-	.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>
-	.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>
-	.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.
-</p>
+```javascript
+var myCallback = function (data) {
+	console.log(data);
+};
 
-<p id="中文">中文</p>
-
-<p id="bazinga"><a data-scroll href="#1@#%^-bottom">Bazinga!</a></p>
-
-<p>
-	.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>
-	.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>
-	.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.
-</p>
-
-<p id="1@#%^-bottom"><a data-scroll data-options='{ "easing": "easeOutCubic" }' href="#">Back to the top</a></p>
+atomic.ajax({
+	type: 'JSONP',
+	url: 'http://jsfiddle.net/echo/jsonp/',
+	callback: 'myCallback',
+	data: {
+		text: 'something',
+		par1: 'another',
+		par2: 'one-more',
+		bool: true
+	}
+});
+```

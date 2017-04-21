@@ -178,7 +178,7 @@
 		var ref = root.document.getElementsByTagName( 'script' )[ 0 ];
 		var script = root.document.createElement( 'script' );
 		settings.data.callback = settings.callback;
-		script.src = settings.url + (settings.url.indexOf( '?' ) + 1 ? '&' : '?') + param(data);
+		script.src = settings.url + (settings.url.indexOf( '?' ) + 1 ? '&' : '?') + param(settings.data);
 
 		// Insert script tag into the DOM (append to <head>)
 		ref.parentNode.insertBefore( script, ref );
