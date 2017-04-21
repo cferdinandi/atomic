@@ -25,6 +25,10 @@ var uglify = require('gulp-uglify');
 var optimizejs = require('gulp-optimize-js');
 var karma = require('gulp-karma');
 
+// Docs
+var markdown = require('gulp-markdown');
+var fileinclude = require('gulp-file-include');
+
 
 /**
  * Paths to project folders
@@ -34,8 +38,14 @@ var paths = {
 	input: 'src/**/*',
 	output: 'dist/',
 	scripts: {
-		input: 'src/*',
+		input: 'src/js/*',
 		output: 'dist/'
+	},
+	docs: {
+		input: 'src/docs/*.{html,md,markdown}',
+		output: 'docs/',
+		templates: 'src/docs/_templates/',
+		assets: 'src/docs/assets/**'
 	},
 	test: {
 		input: 'src/**/*.js',
@@ -43,7 +53,7 @@ var paths = {
 		spec: 'test/spec/**/*.js',
 		coverage: 'test/coverage/',
 		results: 'test/results/'
-	},
+	}
 };
 
 
@@ -51,23 +61,39 @@ var paths = {
  * Template for banner to add to file headers
  */
 
-var banner = '/*! <%= package.title %> v<%= package.version %> | (c) ' + new Date().getFullYear() + ' @toddmotto | <%= package.homepage %> | <%= package.license %> */\n';
+var banner = {
+	full :
+		'/*!\n' +
+		' * <%= package.name %> v<%= package.version %>: <%= package.description %>\n' +
+		' * (c) ' + new Date().getFullYear() + ' <%= package.author.name %>\n' +
+		' * <%= package.license %> License\n' +
+		' * <%= package.repository.url %>\n' +
+		' * Originally created and maintained by Todd Motto - https://toddmotto.com\n' +
+		' */\n',
+	min :
+		'/*!' +
+		' <%= package.name %> v<%= package.version %>' +
+		' | (c) ' + new Date().getFullYear() + ' <%= package.author.name %>' +
+		' | <%= package.license %> License' +
+		' | <%= package.repository.url %>' +
+		' */\n'
+};
 
 
 /**
- * Gulp Taks
+ * Gulp Tasks
  */
 
 // Lint, minify, and concatenate scripts
 gulp.task('build:scripts', ['clean:dist'], function() {
 	var jsTasks = lazypipe()
-		.pipe(header, banner, { package : package })
+		.pipe(header, banner.full, { package : package })
 		.pipe(optimizejs)
 		.pipe(gulp.dest, paths.scripts.output)
 		.pipe(rename, { suffix: '.min' })
 		.pipe(uglify)
 		.pipe(optimizejs)
-		.pipe(header, banner, { package : package })
+		.pipe(header, banner.min, { package : package })
 		.pipe(gulp.dest, paths.scripts.output);
 
 	return gulp.src(paths.scripts.input)
@@ -177,9 +203,18 @@ gulp.task('compile', [
 	'build:scripts'
 ]);
 
+// Generate documentation
+gulp.task('docs', [
+	'clean:docs',
+	'build:docs',
+	'copy:dist',
+	'copy:assets'
+]);
+
 // Compile files and generate docs (default)
 gulp.task('default', [
-	'compile'
+	'compile',
+	'docs'
 ]);
 
 // Compile files and generate docs when something changes

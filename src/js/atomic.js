@@ -1,10 +1,3 @@
-/*!
- * atomic v2.0.0: Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing
- * (c) 2017 Chris Ferdinandi
- * MIT License
- * https://github.com/cferdinandi/atomic
- * Originally created and maintained by Todd Motto - https://toddmotto.com
- */
 (function (root, factory) {
 	if (typeof define === 'function' && define.amd) {
 		define([], factory(root));
@@ -13,7 +6,7 @@
 	} else {
 		root.atomic = factory(root);
 	}
-})(typeof global !== 'undefined' ? global : this.window || this.global, (function (root) {
+})(typeof global !== 'undefined' ? global : this.window || this.global, function (root) {
 
 	'use strict';
 
@@ -222,4 +215,4 @@
 
 	return atomic;
 
-}));
+});
