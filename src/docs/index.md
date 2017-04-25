@@ -29,7 +29,7 @@ atomic.ajax({
 ```javascript
 atomic.ajax({
 	type: 'POST',
-	url: 'http://jsonplaceholder.typicode.com/posts',
+	url: 'https://jsonplaceholder.typicode.com/posts',
 	data: {
 		title: 'foo',
 		body: 'bar',
@@ -63,7 +63,7 @@ var myCallback = function (data) {
 
 atomic.ajax({
 	type: 'JSONP',
-	url: 'http://jsfiddle.net/echo/jsonp/',
+	url: 'https://jsfiddle.net/echo/jsonp/',
 	callback: 'myCallback',
 	data: {
 		text: 'something',
