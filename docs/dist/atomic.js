@@ -1,5 +1,5 @@
 /*!
- * atomic v2.0.1: Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing
+ * atomic v3.0.0: Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing
  * (c) 2017 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
@@ -31,7 +31,9 @@
 		url: null,
 		data: {},
 		callback: null,
-		contentType: 'application/x-www-form-urlencoded',
+		headers: {
+			'Content-type': 'application/x-www-form-urlencoded'
+		},
 		responseType: 'text'
 	};
 
@@ -166,10 +168,18 @@
 
 		};
 
-		// Send our HTTP request
+		// Setup our HTTP request
 		request.open(settings.type, settings.url, true);
-		request.setRequestHeader('Content-type', settings.contentType);
 		request.responseType = settings.responseType;
+
+		// Add headers
+		for (var header in settings.headers) {
+			if (settings.headers.hasOwnProperty(header)) {
+				request.setRequestHeader(header, settings.headers[header]);
+			}
+		}
+
+		// Send the request
 		request.send(param(settings.data));
 
 		return atomXHR;

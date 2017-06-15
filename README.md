@@ -115,6 +115,9 @@ atomic.ajax({
 	data: {}, // data to be sent to the server
 	callback: null, // A callback function (for use with JSONP)
 	contentType: 'application/x-www-form-urlencoded', // The content type
+	headers: { // Adds headers to your request: request.setRequestHeader(key, value)
+		'Content-type': 'application/x-www-form-urlencoded'
+	},
 	responseType: 'text' // the response type
 });
 ```
