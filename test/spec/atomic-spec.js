@@ -86,7 +86,9 @@ describe('atomic', function () {
 		it('should set Content-type', function() {
 			atomic.ajax({
 				url: '/endpoint',
-				contentType: 'application/json'
+				headers: {
+					'Content-type': 'application/json'
+				}
 			});
 
 			expect(XMLHttpRequest.prototype.setRequestHeader)
