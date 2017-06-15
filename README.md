@@ -118,7 +118,7 @@ atomic.ajax({
 	headers: { // Adds headers to your request: request.setRequestHeader(key, value)
 		'Content-type': 'application/x-www-form-urlencoded'
 	},
-	responseType: 'text' // the response type
+	responseType: 'text' // the response type (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType)
 });
 ```
 
