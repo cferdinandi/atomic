@@ -1,5 +1,5 @@
 /*!
- * atomic v3.0.0: Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing
+ * atomic v3.1.0: Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing
  * (c) 2017 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
@@ -34,7 +34,8 @@
 		headers: {
 			'Content-type': 'application/x-www-form-urlencoded'
 		},
-		responseType: 'text'
+		responseType: 'text',
+		withCredentials: false
 	};
 
 
@@ -177,6 +178,11 @@
 			if (settings.headers.hasOwnProperty(header)) {
 				request.setRequestHeader(header, settings.headers[header]);
 			}
+		}
+
+		// Add withCredentials
+		if (settings.withCredentials) {
+			request.withCredentials = true;
 		}
 
 		// Send the request

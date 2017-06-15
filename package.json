@@ -1,6 +1,6 @@
 {
 	"name": "atomic",
-	"version": "3.0.0",
+	"version": "3.1.0",
 	"description": "Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing",
 	"main": "./dist/atomic.min.js",
 	"author": {
