@@ -27,7 +27,8 @@
 		headers: {
 			'Content-type': 'application/x-www-form-urlencoded'
 		},
-		responseType: 'text'
+		responseType: 'text',
+		withCredentials: false
 	};
 
 
@@ -170,6 +171,11 @@
 			if (settings.headers.hasOwnProperty(header)) {
 				request.setRequestHeader(header, settings.headers[header]);
 			}
+		}
+
+		// Add withCredentials
+		if (settings.withCredentials) {
+			request.withCredentials = true;
 		}
 
 		// Send the request
