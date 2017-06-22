@@ -1,5 +1,5 @@
 /*!
- * atomic v3.1.0: Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing
+ * atomic v3.1.1: Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing
  * (c) 2017 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
@@ -59,7 +59,11 @@
 		var merge = function (obj) {
 			for ( var prop in obj ) {
 				if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
-					extended[prop] = obj[prop];
+					if ( Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
+						extended[prop] = extend( true, extended[prop], obj[prop] );
+					} else {
+						extended[prop] = obj[prop];
+					}
 				}
 			}
 		};
