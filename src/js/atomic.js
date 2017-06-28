@@ -186,7 +186,7 @@
 		if(settings.headers.hasOwnProperty("Content-Type"))
 		{
 			switch(settings.headers["Content-Type"])
-				case "application/jason":
+				case "application/json":
 					request.send(JSON.stringify(settings.data));
 					break;
 				default:
