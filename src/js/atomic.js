@@ -25,7 +25,7 @@
 		data: {},
 		callback: null,
 		headers: {
-			'Content-type': 'application/x-www-form-urlencoded'
+			'Content-type': null
 		},
 		responseType: 'text',
 		withCredentials: false
@@ -175,7 +175,7 @@
 			if (settings.headers.hasOwnProperty(header)) {
 				request.setRequestHeader(header, settings.headers[header]);
 			}
-		}
+		}		
 
 		// Add withCredentials
 		if (settings.withCredentials) {
@@ -183,7 +183,16 @@
 		}
 
 		// Send the request
-		request.send(param(settings.data));
+		if(settings.headers.hasOwnProperty("Content-Type"))
+		{
+			switch(settings.headers["Content-Type"])
+				case "application/jason":
+					request.send(JSON.stringify(settings.data));
+					break;
+				default:
+					request.send(param(settings.data));
+					break;
+		}
 
 		return atomXHR;
 	};
