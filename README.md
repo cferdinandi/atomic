@@ -79,7 +79,6 @@ You can install Atomic with your favorite package manager.
 
 - **[NPM](https://www.npmjs.org/):** `npm install cferdinandi/atomic`
 - **[Bower](http://bower.io/):** `bower install https://github.com/cferdinandi/atomic.git`
-- **[Component](http://component.io/):** `component install cferdinandi/atomic`
 
 
 
@@ -110,15 +109,14 @@ Atomic includes smart defaults and works right out of the box. You can pass opti
 
 ```js
 atomic.ajax({
-	type: 'GET', // the request type
-	url: null, // the endpoint for your request
-	data: {}, // data to be sent to the server
-	callback: null, // A callback function (for use with JSONP)
-	contentType: 'application/x-www-form-urlencoded', // The content type
-	headers: { // Adds headers to your request: request.setRequestHeader(key, value)
+	type: 'GET', // {String} the request type
+	url: null, // {String} the endpoint for your request
+	data: {}, // {Object|Array|String} data to be sent to the server
+	callback: null, // {String} The name of a global callback function (for use with JSONP)
+	headers: { // {Object} Adds headers to your request: request.setRequestHeader(key, value)
 		'Content-type': 'application/x-www-form-urlencoded'
 	},
-	responseType: 'text' // the response type (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType)
+	responseType: 'text' // {String} the response type (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType)
 });
 ```
 

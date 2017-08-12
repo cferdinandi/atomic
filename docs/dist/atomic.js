@@ -1,5 +1,5 @@
 /*!
- * atomic v3.1.1: Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing
+ * atomic v3.2.0: Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing
  * (c) 2017 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
@@ -101,20 +101,19 @@
 	 * Convert an object into a query string
 	 * @private
 	 * @@link  https://blog.garstasio.com/you-dont-need-jquery/ajax/
-	 * @param  {Object} obj The object
-	 * @return {String}     The query string
+	 * @param  {Object|Array|String} obj The object
+	 * @return {String}                  The query string
 	 */
 	var param = function (obj) {
-		var encodedString = '';
+		if (typeof (obj) === 'string') return obj;
+		if (/application\/json/i.test(settings.headers['Content-type']) || Object.prototype.toString.call(obj) === '[object Array]') return JSON.stringify(obj);
+		var encoded = [];
 		for (var prop in obj) {
 			if (obj.hasOwnProperty(prop)) {
-				if (encodedString.length > 0) {
-					encodedString += '&';
-				}
-				encodedString += encodeURI(prop + '=' + obj[prop]);
+				encoded.push(encodeURIComponent(prop) + '=' + encodeURIComponent(obj[prop]));
 			}
 		}
-		return encodedString;
+		return encoded.join('&');
 	};
 
 	/**

@@ -150,19 +150,24 @@
 })
     .success(function (data, xhr) {
         // What do when the request is successful
-        console.log(&#39;SUCCESS!&#39;);
-        console.log(&#39;xhr.textResponse:&#39;);
-        console.log(data);
-        console.log(&#39;xhr:&#39;);
-        console.log(xhr);
+        console.group(&#39;success()&#39;);
+            console.log(&#39;xhr.textResponse:&#39;);
+            console.log(data);
+            console.log(&#39;xhr:&#39;);
+            console.log(xhr);
+        console.groupEnd();
     })
     .error(function () {
         // What do when the request fails
-        console.log( &#39;The request failed!&#39; );
+        console.group(&#39;error()&#39;);
+            console.log( &#39;The request failed!&#39; );
+        console.groupEnd();
     })
     .always(function (data, xhr) {
         // Code that should run regardless of the request status
-        console.log(&#39;This always runs...&#39;);
+        console.group(&#39;always()&#39;);
+            console.log(&#39;This always runs...&#39;);
+        console.groupEnd();
     });
 </code></pre>
 <h2 id="-post-"><code>POST</code></h2>
@@ -177,19 +182,24 @@
 })
     .success(function (data, xhr) {
         // What do when the request is successful
-        console.log(&#39;SUCCESS!&#39;);
-        console.log(&#39;xhr.textResponse:&#39;);
-        console.log(data);
-        console.log(&#39;xhr:&#39;);
-        console.log(xhr);
+        console.group(&#39;success()&#39;);
+            console.log(&#39;xhr.textResponse:&#39;);
+            console.log(data);
+            console.log(&#39;xhr:&#39;);
+            console.log(xhr);
+        console.groupEnd();
     })
     .error(function () {
         // What do when the request fails
-        console.log( &#39;The request failed!&#39; );
+        console.group(&#39;error()&#39;);
+            console.log( &#39;The request failed!&#39; );
+        console.groupEnd();
     })
     .always(function (data, xhr) {
         // Code that should run regardless of the request status
-        console.log(&#39;This always runs...&#39;);
+        console.group(&#39;always()&#39;);
+            console.log(&#39;This always runs...&#39;);
+        console.groupEnd();
     });
 </code></pre>
 <h2 id="jsonp">JSONP</h2>
