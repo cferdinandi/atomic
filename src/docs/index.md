@@ -8,19 +8,24 @@ atomic.ajax({
 })
 	.success(function (data, xhr) {
 		// What do when the request is successful
-		console.log('SUCCESS!');
-		console.log('xhr.textResponse:');
-		console.log(data);
-		console.log('xhr:');
-		console.log(xhr);
+		console.group('success()');
+			console.log('xhr.textResponse:');
+			console.log(data);
+			console.log('xhr:');
+			console.log(xhr);
+		console.groupEnd();
 	})
 	.error(function () {
 		// What do when the request fails
-		console.log( 'The request failed!' );
+		console.group('error()');
+			console.log( 'The request failed!' );
+		console.groupEnd();
 	})
 	.always(function (data, xhr) {
 		// Code that should run regardless of the request status
-		console.log('This always runs...');
+		console.group('always()');
+			console.log('This always runs...');
+		console.groupEnd();
 	});
 ```
 
@@ -38,19 +43,24 @@ atomic.ajax({
 })
 	.success(function (data, xhr) {
 		// What do when the request is successful
-		console.log('SUCCESS!');
-		console.log('xhr.textResponse:');
-		console.log(data);
-		console.log('xhr:');
-		console.log(xhr);
+		console.group('success()');
+			console.log('xhr.textResponse:');
+			console.log(data);
+			console.log('xhr:');
+			console.log(xhr);
+		console.groupEnd();
 	})
 	.error(function () {
 		// What do when the request fails
-		console.log( 'The request failed!' );
+		console.group('error()');
+			console.log( 'The request failed!' );
+		console.groupEnd();
 	})
 	.always(function (data, xhr) {
 		// Code that should run regardless of the request status
-		console.log('This always runs...');
+		console.group('always()');
+			console.log('This always runs...');
+		console.groupEnd();
 	});
 ```
 
