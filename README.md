@@ -117,7 +117,8 @@ atomic.ajax({
 	headers: { // {Object} Adds headers to your request: request.setRequestHeader(key, value)
 		'Content-type': 'application/x-www-form-urlencoded'
 	},
-	responseType: 'text' // {String} the response type (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType)
+	responseType: 'text', // {String} the response type (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType)
+	withCredentials: false // {Boolean} If true, send credentials with request (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials)
 });
 ```
 
