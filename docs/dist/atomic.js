@@ -1,5 +1,5 @@
 /*!
- * atomic v3.2.0: Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing
+ * atomicjs v3.2.1: A tiny vanilla JS Ajax/HTTP plugin with great browser support
  * (c) 2017 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
