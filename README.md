@@ -9,7 +9,7 @@ Originally created and maintained by [Todd Motto](https://toddmotto.com).
 
 <hr>
 
-### Want to learn how to write your own vanilla JS plugins? Check out ["The Vanilla JS Guidebook"](https://gomakethings.com/vanilla-js-guidebook/) and level-up as a web developer. 🚀
+### Want to learn how to write your own vanilla JS plugins? Check out ["Vanilla JS Pocket Guide series"](https://gomakethings.com/guides/) and level-up as a web developer. 🚀
 
 <hr>
 
@@ -75,10 +75,11 @@ atomic.ajax({
 
 ## Installing with Package Managers
 
-You can install Atomic with your favorite package manager.
+You can install Atomic with your favorite package manager or module loader directly from  NPM.
 
-- **[NPM](https://www.npmjs.org/):** `npm install cferdinandi/atomic`
-- **[Bower](http://bower.io/):** `bower install https://github.com/cferdinandi/atomic.git`
+```
+npm install atomicjs
+```
 
 
 

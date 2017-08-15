@@ -1,7 +1,7 @@
 {
-	"name": "atomic",
-	"version": "3.2.0",
-	"description": "Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing",
+	"name": "atomicjs",
+	"version": "3.2.1",
+	"description": "A tiny vanilla JS Ajax/HTTP plugin with great browser support",
 	"main": "./dist/atomic.min.js",
 	"author": {
 		"name": "Chris Ferdinandi",
