@@ -129,9 +129,9 @@ Atomic works in all modern browsers, and IE8 and above.
 
 
 
-## How to Contribute
+## Support
 
-Please review the  [contributing guidelines](CONTRIBUTING.md).
+Please review the [support guidelines](SUPPORT.md).
 
 
 
