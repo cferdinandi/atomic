@@ -1,6 +1,6 @@
 {
 	"name": "atomicjs",
-	"version": "3.2.1",
+	"version": "3.3.0",
 	"description": "A tiny vanilla JS Ajax/HTTP plugin with great browser support",
 	"main": "./dist/atomic.min.js",
 	"author": {
