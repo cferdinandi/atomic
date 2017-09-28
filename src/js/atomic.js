@@ -1,12 +1,14 @@
 (function (root, factory) {
-	if (typeof define === 'function' && define.amd) {
-		define([], factory(root));
-	} else if (typeof exports === 'object') {
+	if ( typeof define === 'function' && define.amd ) {
+		define([], function () {
+			return factory(root);
+		});
+	} else if ( typeof exports === 'object' ) {
 		module.exports = factory(root);
 	} else {
-		root.atomic = factory(root);
+		window.atomic = factory(root);
 	}
-})(typeof global !== 'undefined' ? global : this.window || this.global, function (root) {
+})(typeof global !== 'undefined' ? global : typeof window !== 'undefined' ? window : this, function (window) {
 
 	'use strict';
 
@@ -15,7 +17,7 @@
 	//
 
 	var atomic = {}; // Object for public APIs
-	var supports = !!root.XMLHttpRequest && !!root.JSON; // Feature test
+	var supports = !!window.XMLHttpRequest && !!window.JSON; // Feature test
 	var settings;
 
 	// Default settings
@@ -123,6 +125,9 @@
 			always: function () {}
 		};
 
+		// Create our HTTP request
+		var request = new XMLHttpRequest();
+
 		// Override defaults with user methods and setup chaining
 		var atomXHR = {
 			success: function (callback) {
@@ -136,11 +141,11 @@
 			always: function (callback) {
 				methods.always = callback;
 				return atomXHR;
+			},
+			abort: function () {
+				request.abort();
 			}
 		};
-
-		// Create our HTTP request
-		var request = new XMLHttpRequest();
 
 		// Setup our listener to process compeleted requests
 		request.onreadystatechange = function () {
@@ -194,8 +199,8 @@
 	 */
 	var jsonp = function () {
 		// Create script with the url and callback
-		var ref = root.document.getElementsByTagName( 'script' )[ 0 ];
-		var script = root.document.createElement( 'script' );
+		var ref = window.document.getElementsByTagName( 'script' )[ 0 ];
+		var script = window.document.createElement( 'script' );
 		settings.data.callback = settings.callback;
 		script.src = settings.url + (settings.url.indexOf( '?' ) + 1 ? '&' : '?') + param(settings.data);
 

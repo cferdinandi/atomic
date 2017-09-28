@@ -34,7 +34,7 @@ The `success`, `error`, and `always` callbacks run when the request is successfu
 ```js
 // A GET request
 atomic.ajax({
-	url: '/endpoint.com'
+	url: '/endpoint'
 })
 	.success(function (data, xhr) {
 		console.log(data); // xhr.responseText
@@ -52,7 +52,7 @@ atomic.ajax({
 // A POST request
 atomic.ajax({
 	type: 'POST',
-	url: '/endpoint.com'
+	url: '/endpoint'
 });
 ```
 
@@ -66,9 +66,25 @@ var myCallback(data) {
 // A JSONP request
 atomic.ajax({
 	type: 'JSONP',
-	url: '/endpoint.com',
+	url: '/endpoint',
 	callback: 'myCallback'
 });
+```
+
+### Cancelling requests
+
+To cancel an Ajax request, you can call the `abort()` method. In order for this to work, you need to assign your Atomic call to a variable.
+
+```js
+// Make your call
+var xhr = atomic.ajax({
+	url: '/endpoint'
+}).success(function (data) {
+	// ...
+});
+
+// Abort your call
+xhr.abort();
 ```
 
 
