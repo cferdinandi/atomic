@@ -144,7 +144,8 @@
 			},
 			abort: function () {
 				request.abort();
-			}
+			},
+			request: request
 		};
 
 		// Setup our listener to process compeleted requests

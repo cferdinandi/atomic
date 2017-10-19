@@ -1,5 +1,5 @@
 /*!
- * atomicjs v3.3.0: A tiny vanilla JS Ajax/HTTP plugin with great browser support
+ * atomicjs v3.4.0: A tiny vanilla JS Ajax/HTTP plugin with great browser support
  * (c) 2017 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
@@ -151,7 +151,8 @@
 			},
 			abort: function () {
 				request.abort();
-			}
+			},
+			request: request
 		};
 
 		// Setup our listener to process compeleted requests
