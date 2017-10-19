@@ -88,6 +88,25 @@ xhr.abort();
 ```
 
 
+### Accessing the XHR request directly
+
+You can add event listeners to your request or access other root properties by accessing your XHR request directly with the `request` property.
+
+```js
+// Make your call
+var xhr = atomic.ajax({
+	url: '/endpoint'
+}).success(function (data) {
+	// ...
+});
+
+// Access the request
+xhr.request.addEventListener('load', function () {
+	console.log('Loaded!');
+}, false);
+```
+
+
 
 ## Installing with Package Managers
 
