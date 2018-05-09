@@ -1,5 +1,5 @@
 /*!
- * atomic v4.0.0: A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
+ * atomic v4.0.1: A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
  * (c) 2018 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
@@ -1259,7 +1259,7 @@ return Promise$1;
 	var parse = function (req) {
 		var result;
 		if (settings.responseType !== 'text' && settings.responseType !== '') {
-			return [req.response, req];
+			return {data: req.response, xhr: req};
 		}
 		try {
 			result = JSON.parse(req.responseText);

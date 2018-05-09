@@ -79,7 +79,7 @@
 	var parse = function (req) {
 		var result;
 		if (settings.responseType !== 'text' && settings.responseType !== '') {
-			return [req.response, req];
+			return {data: req.response, xhr: req};
 		}
 		try {
 			result = JSON.parse(req.responseText);
