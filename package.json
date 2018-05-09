@@ -1,7 +1,7 @@
 {
-	"name": "atomicjs",
-	"version": "3.4.0",
-	"description": "A tiny vanilla JS Ajax/HTTP plugin with great browser support",
+	"name": "atomic",
+	"version": "4.0.0",
+	"description": "A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.",
 	"main": "./dist/atomic.min.js",
 	"author": {
 		"name": "Chris Ferdinandi",
@@ -26,25 +26,15 @@
 		"gulp-rename": "^1.2.2",
 		"gulp-header": "^1.8.8",
 		"gulp-footer": "^1.0.5",
-		"gulp-watch": "^4.3.9",
+		"gulp-watch": "^4.3.11",
 		"gulp-livereload": "^3.8.1",
 		"jshint": "^2.9.4",
-		"gulp-jshint": "^2.0.1",
+		"gulp-jshint": "^2.0.4",
 		"jshint-stylish": "^2.2.1",
-		"gulp-concat": "^2.6.0",
-		"gulp-uglify": "^2.0.0",
-		"gulp-optimize-js": "^1.0.2",
+		"gulp-concat": "^2.6.1",
+		"gulp-uglify": "^2.1.2",
+		"gulp-optimize-js": "^1.1.0",
 		"gulp-markdown": "^1.2.0",
-		"gulp-file-include": "^0.14.0",
-		"phantomjs": "^1.9.19",
-		"karma": "^0.12.37",
-		"gulp-karma": "^0.0.4",
-		"karma-coverage": "^0.4.2",
-		"jasmine": "^2.3.1",
-		"jasmine-core": "^2.4.1",
-		"karma-jasmine": "^0.3.6",
-		"karma-phantomjs-launcher": "^1.0.4",
-		"karma-spec-reporter": "^0.0.19",
-		"karma-htmlfile-reporter": "^0.2.1"
+		"gulp-file-include": "^0.14.0"
 	}
 }

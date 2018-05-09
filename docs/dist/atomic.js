@@ -1,16 +1,16 @@
 /*!
- * atomicjs v3.4.0: A tiny vanilla JS Ajax/HTTP plugin with great browser support
- * (c) 2017 Chris Ferdinandi
+ * atomic v4.0.0: A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
+ * (c) 2018 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
- * Originally created and maintained by Todd Motto - https://toddmotto.com
  */
+
 (function (root, factory) {
-	if ( typeof define === 'function' && define.amd ) {
+	if (typeof define === 'function' && define.amd) {
 		define([], (function () {
 			return factory(root);
 		}));
-	} else if ( typeof exports === 'object' ) {
+	} else if (typeof exports === 'object') {
 		module.exports = factory(root);
 	} else {
 		window.atomic = factory(root);
@@ -23,16 +23,15 @@
 	// Variables
 	//
 
-	var atomic = {}; // Object for public APIs
-	var supports = !!window.XMLHttpRequest && !!window.JSON; // Feature test
+	var supports = !!window.XMLHttpRequest && !!window.JSON && typeof Promise !== 'undefined' && Promise.toString().indexOf('[native code]') !== -1; // Feature test
 	var settings;
 
 	// Default settings
 	var defaults = {
-		type: 'GET',
-		url: null,
+		method: 'GET',
+		username: null,
+		password: null,
 		data: {},
-		callback: null,
 		headers: {
 			'Content-type': 'application/x-www-form-urlencoded'
 		},
@@ -46,23 +45,21 @@
 	//
 
 	/**
-	 * Merge two or more objects. Returns a new object.
-	 * @private
-	 * @param {Boolean}  deep     If true, do a deep (or recursive) merge [optional]
-	 * @param {Object}   objects  The objects to merge together
-	 * @returns {Object}          Merged values of defaults and options
+	 * Merge two or more objects together.
+	 * @param   {Object}   objects  The objects to merge together
+	 * @returns {Object}            Merged values of defaults and options
 	 */
 	var extend = function () {
 
-		// Setup extended object
+		// Variables
 		var extended = {};
 
 		// Merge the object into the extended object
 		var merge = function (obj) {
-			for ( var prop in obj ) {
-				if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
-					if ( Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
-						extended[prop] = extend( true, extended[prop], obj[prop] );
+			for (var prop in obj) {
+				if (obj.hasOwnProperty(prop)) {
+					if (Object.prototype.toString.call(obj[prop]) === '[object Object]') {
+						extended[prop] = extend(extended[prop], obj[prop]);
 					} else {
 						extended[prop] = obj[prop];
 					}
@@ -96,13 +93,12 @@
 		} catch (e) {
 			result = req.responseText;
 		}
-		return [result, req];
+		return {data: result, xhr: req};
 	};
 
 	/**
 	 * Convert an object into a query string
-	 * @private
-	 * @@link  https://blog.garstasio.com/you-dont-need-jquery/ajax/
+	 * @link   https://blog.garstasio.com/you-dont-need-jquery/ajax/
 	 * @param  {Object|Array|String} obj The object
 	 * @return {String}                  The query string
 	 */
@@ -119,132 +115,86 @@
 	};
 
 	/**
-	 * Make an XML HTTP request
-	 * @private
-	 * @return {Object} Chained success/error/always methods
+	 * Make an XHR request, returned as a Promise
+	 * @param  {String} url The request URL
+	 * @return {Promise}    The XHR request Promise
 	 */
-	var xhr = function () {
+	var makeRequest = function (url) {
 
-		// Our default methods
-		var methods = {
-			success: function () {},
-			error: function () {},
-			always: function () {}
-		};
-
-		// Create our HTTP request
+		// Create the XHR request
 		var request = new XMLHttpRequest();
 
-		// Override defaults with user methods and setup chaining
-		var atomXHR = {
-			success: function (callback) {
-				methods.success = callback;
-				return atomXHR;
-			},
-			error: function (callback) {
-				methods.error = callback;
-				return atomXHR;
-			},
-			always: function (callback) {
-				methods.always = callback;
-				return atomXHR;
-			},
-			abort: function () {
-				request.abort();
-			},
-			request: request
-		};
+		// Return the request as a Promise
+		return new Promise(function (resolve, reject) {
 
-		// Setup our listener to process compeleted requests
-		request.onreadystatechange = function () {
+			// Setup our listener to process compeleted requests
+			request.onreadystatechange = function () {
 
-			// Only run if the request is complete
-			if ( request.readyState !== 4 ) return;
+				// Only run if the request is complete
+				if (request.readyState !== 4) return;
 
-			// Parse the response text
-			var req = parse(request);
+				// Process the response
+				if (request.status >= 200 && request.status < 300) {
+					// If successful
+					resolve(parse(request));
+				} else {
+					// If failed
+					reject({
+						status: request.status,
+						statusText: request.statusText
+					});
+				}
 
-			// Process the response
-			if (request.status >= 200 && request.status < 300) {
-				// If successful
-				methods.success.apply(methods, req);
-			} else {
-				// If failed
-				methods.error.apply(methods, req);
+			};
+
+			// Setup our HTTP request
+			request.open(settings.method, url, true, settings.username, settings.password);
+			request.responseType = settings.responseType;
+
+			// Add headers
+			for (var header in settings.headers) {
+				if (settings.headers.hasOwnProperty(header)) {
+					request.setRequestHeader(header, settings.headers[header]);
+				}
 			}
 
-			// Run always
-			methods.always.apply(methods, req);
-
-		};
-
-		// Setup our HTTP request
-		request.open(settings.type, settings.url, true);
-		request.responseType = settings.responseType;
-
-		// Add headers
-		for (var header in settings.headers) {
-			if (settings.headers.hasOwnProperty(header)) {
-				request.setRequestHeader(header, settings.headers[header]);
+			// Add withCredentials
+			if (settings.withCredentials) {
+				request.withCredentials = true;
 			}
-		}
 
-		// Add withCredentials
-		if (settings.withCredentials) {
-			request.withCredentials = true;
-		}
+			// Send the request
+			request.send(param(settings.data));
 
-		// Send the request
-		request.send(param(settings.data));
+		});
 
-		return atomXHR;
 	};
 
 	/**
-	 * Make a JSONP request
-	 * @private
-	 * @return {[type]} [description]
+	 * Instatiate Atomic
+	 * @param {String} url      The request URL
+	 * @param {Object} options  A set of options for the request [optional]
 	 */
-	var jsonp = function () {
-		// Create script with the url and callback
-		var ref = window.document.getElementsByTagName( 'script' )[ 0 ];
-		var script = window.document.createElement( 'script' );
-		settings.data.callback = settings.callback;
-		script.src = settings.url + (settings.url.indexOf( '?' ) + 1 ? '&' : '?') + param(settings.data);
+	var Atomic = function (url, options) {
 
-		// Insert script tag into the DOM (append to <head>)
-		ref.parentNode.insertBefore( script, ref );
+		// Check browser support
+		if (!supports) {
+			throw 'This browser does not support the methods used in this plugin.';
+		}
 
-		// After the script is loaded and executed, remove it
-		script.onload = function () {
-			this.remove();
-		};
-	};
+		// Merge options into defaults
+		settings = extend(defaults, options || {});
 
-	/**
-	 * Make an Ajax request
-	 * @public
-	 * @param  {Object} options  User settings
-	 * @return {String|Object}   The Ajax request response
-	 */
-	atomic.ajax = function (options) {
-
-		// feature test
-		if ( !supports ) return;
-
-		// Merge user options with defaults
-		settings = extend( defaults, options || {} );
-
-		// Make our Ajax or JSONP request
-		return ( settings.type.toLowerCase() === 'jsonp' ? jsonp() : xhr() );
+		// Make request
+		return makeRequest(url);
 
 	};
 
 
 	//
-	// Public APIs
+	// Public Methods
 	//
 
-	return atomic;
+	return Atomic;
 
 }));

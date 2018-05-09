@@ -1,8 +1,6 @@
 # Atomic [![Build Status](https://travis-ci.org/cferdinandi/atomic.svg)](https://travis-ci.org/cferdinandi/atomic)
 
-Vanilla JavaScript Ajax requests with chained success/error callbacks and JSON parsing. Supports `GET`, `POST`, `PUT`, `DELETE`, and JSONP.
-
-Originally created and maintained by [Todd Motto](https://toddmotto.com).
+A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support. Supports `GET`, `POST`, `PUT`, `DELETE`.
 
 [Download Atomic](https://github.com/cferdinandi/atomic/archive/master.zip) / [View the demo](http://cferdinandi.github.io/atomic/)
 
@@ -21,99 +19,44 @@ Compiled and production-ready code can be found in the `dist` directory. The `sr
 
 ### 1. Include Atomic on your site.
 
+There are two versions of Atomic: the standalone version, and one that comes preloaded with a polyfill for ES6 Promises, which are only supported in newer browsers.
+
+If you're including your own polyfill or don't want to enable this feature for older browsers, use the standalone version. Otherwise, use the version with the polyfill.
+
 ```html
 <script src="dist/atomic.js"></script>
 ```
 
 ### 2. Make your Ajax request.
 
-Pass in the requested URL, and optionally, the request type. Defaults to `GET`.
+Pass in the requested URL, and optionally, your desired options. Request method defaults to `GET`.
 
-The `success`, `error`, and `always` callbacks run when the request is successful, when it fails, and either way, respectively. They accept the `responseText` (`data`) and full response (`xhr`) as arguments. All three callbacks are optional.
+Use `.then()` with a callback to handle successful responses, and `catch()` to handle errors.
 
 ```js
-// A GET request
-atomic.ajax({
-	url: '/endpoint'
-})
-	.success(function (data, xhr) {
-		console.log(data); // xhr.responseText
-		console.log(xhr); // full response
+// A basic GET request
+atomic('https://some-url.com')
+	.then(function (response) {
+		console.log(response.data); // xhr.responseText
+		console.log(response.xhr);  // full response
 	})
-	.error(function (data, xhr) {
-		console.log(data); // xhr.responseText
-		console.log(xhr); // full response
-	})
-	.always(function (data, xhr) {
-		console.log(data); // xhr.responseText
-		console.log(xhr); // full response
+	.catch(function (error) {
+		console.log(error.status); // xhr.status
+		console.log(error.statusText); // xhr.statusText
 	});
 
 // A POST request
-atomic.ajax({
-	type: 'POST',
-	url: '/endpoint'
-});
-```
-
-JSONP requests do not accept the callback functions. You must instead setup a global callback function and pass in the function name a string to the `callback` option. Atomic will pass the returned data into your callback as an argument (in the example below, `data`).
-
-```js
-var myCallback(data) {
-	console.log(data); // full response
-};
-
-// A JSONP request
-atomic.ajax({
-	type: 'JSONP',
-	url: '/endpoint',
-	callback: 'myCallback'
-});
-```
-
-### Cancelling requests
-
-To cancel an Ajax request, you can call the `abort()` method. In order for this to work, you need to assign your Atomic call to a variable.
-
-```js
-// Make your call
-var xhr = atomic.ajax({
-	url: '/endpoint'
-}).success(function (data) {
-	// ...
-});
-
-// Abort your call
-xhr.abort();
-```
-
-
-### Accessing the XHR request directly
-
-You can add event listeners to your request or access other root properties by accessing your XHR request directly with the `request` property.
-
-```js
-// Make your call
-var xhr = atomic.ajax({
-	url: '/endpoint'
-}).success(function (data) {
-	// ...
-});
-
-// Access the request
-xhr.request.addEventListener('load', function () {
-	console.log('Loaded!');
-}, false);
-```
-
-
-
-## Installing with Package Managers
-
-You can install Atomic with your favorite package manager or module loader directly from  NPM.
-
-```
-npm install atomicjs
+atomic('https://some-url.com', {
+	method: 'POST'
+})
+	.then(function (response) {
+		console.log(response.data); // xhr.responseText
+		console.log(response.xhr);  // full response
+	})
+	.catch(function (error) {
+		console.log(error.status); // xhr.status
+		console.log(error.statusText); // xhr.statusText
+	});
 ```
 
 
@@ -144,11 +87,11 @@ Make sure these are installed first.
 Atomic includes smart defaults and works right out of the box. You can pass options into Atomic through the `ajax()` function:
 
 ```js
-atomic.ajax({
-	type: 'GET', // {String} the request type
-	url: null, // {String} the endpoint for your request
+atomic('https://some-url.com', {
+	method: 'GET', // {String} the request type
+	username: null, // {String} an optional username for authentication purposes
+	password: null, // {String} an optional password for authentication purposes
 	data: {}, // {Object|Array|String} data to be sent to the server
-	callback: null, // {String} The name of a global callback function (for use with JSONP)
 	headers: { // {Object} Adds headers to your request: request.setRequestHeader(key, value)
 		'Content-type': 'application/x-www-form-urlencoded'
 	},
@@ -158,9 +101,29 @@ atomic.ajax({
 ```
 
 
+## Migrating from Atomic 3
+
+### New Features
+
+- Atomic is now Promise-based, and supports chaining with `.then()` and `.catch()`.
+- For simple requests, you can now just pass in a URL to `atomic()` like you would with the Fetch API. You no longer need to pass in an object with the `url` parameter.
+
+### Breaking Changes
+
+- You *must* pass in a URL as the first argument. The URL as an options parameter is no longer support.
+- You now pass arguments directly into `atomic()`. The `atomic.ajax()` method no longer exists.
+- The `.success()`, `.error()`, and `.always()` callbacks have been removed. Use `.then()` and `.catch()` instead.
+- JSONP support has been removed.
+
+You can still download Atomic 3 and earlier on [the releases page](https://github.com/cferdinandi/atomic/releases).
+
+
+
 ## Browser Compatibility
 
 Atomic works in all modern browsers, and IE8 and above.
+
+The standalone version provides native support for all modern browsers. Use the `.polyfills` version (or include your own) to support IE.
 
 
 
