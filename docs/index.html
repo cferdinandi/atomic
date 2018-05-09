@@ -145,86 +145,51 @@
 			<section>
 <p>Atomic is already loaded on this page. See it in action by copy/pasting some of the samples below into the Console window in Developer Tools.</p>
 <h2 id="-get-"><code>GET</code></h2>
-<pre><code class="lang-javascript">atomic.ajax({
-    url: &#39;https://jsonplaceholder.typicode.com/posts&#39;
-})
-    .success(function (data, xhr) {
-        // What do when the request is successful
-        console.group(&#39;success()&#39;);
-            console.log(&#39;xhr.textResponse:&#39;);
-            console.log(data);
-            console.log(&#39;xhr:&#39;);
-            console.log(xhr);
-        console.groupEnd();
+<pre><code class="lang-javascript">atomic(&#39;https://jsonplaceholder.typicode.com/posts&#39;)
+    .then(function (response) {
+        console.log(&#39;success data&#39;, response.data); // xhr.responseText
+        console.log(&#39;success full response&#39;, response.xhr);  // full response
     })
-    .error(function () {
-        // What do when the request fails
-        console.group(&#39;error()&#39;);
-            console.log( &#39;The request failed!&#39; );
-        console.groupEnd();
-    })
-    .always(function (data, xhr) {
-        // Code that should run regardless of the request status
-        console.group(&#39;always()&#39;);
-            console.log(&#39;This always runs...&#39;);
-        console.groupEnd();
+    .catch(function (error) {
+        console.log(&#39;error code&#39;, error.status); // xhr.status
+        console.log(&#39;error description&#39;, error.statusText); // xhr.statusText
     });
 </code></pre>
 <h2 id="-post-"><code>POST</code></h2>
-<pre><code class="lang-javascript">atomic.ajax({
-    type: &#39;POST&#39;,
-    url: &#39;https://jsonplaceholder.typicode.com/posts&#39;,
+<pre><code class="lang-javascript">atomic(&#39;https://jsonplaceholder.typicode.com/posts&#39;, {
+    method: &#39;POST&#39;,
     data: {
         title: &#39;foo&#39;,
         body: &#39;bar&#39;,
         userId: 1
     }
 })
-    .success(function (data, xhr) {
-        // What do when the request is successful
-        console.group(&#39;success()&#39;);
-            console.log(&#39;xhr.textResponse:&#39;);
-            console.log(data);
-            console.log(&#39;xhr:&#39;);
-            console.log(xhr);
-        console.groupEnd();
+    .then(function (response) {
+        console.log(&#39;success data&#39;, response.data); // xhr.responseText
+        console.log(&#39;success full response&#39;, response.xhr);  // full response
     })
-    .error(function () {
-        // What do when the request fails
-        console.group(&#39;error()&#39;);
-            console.log( &#39;The request failed!&#39; );
-        console.groupEnd();
-    })
-    .always(function (data, xhr) {
-        // Code that should run regardless of the request status
-        console.group(&#39;always()&#39;);
-            console.log(&#39;This always runs...&#39;);
-        console.groupEnd();
+    .catch(function (error) {
+        console.log(&#39;error code&#39;, error.status); // xhr.status
+        console.log(&#39;error description&#39;, error.statusText); // xhr.statusText
     });
 </code></pre>
-<h2 id="jsonp">JSONP</h2>
-<pre><code class="lang-javascript">var myCallback = function (data) {
-    console.log(data);
-};
-
-atomic.ajax({
-    type: &#39;JSONP&#39;,
-    url: &#39;https://jsfiddle.net/echo/jsonp/&#39;,
-    callback: &#39;myCallback&#39;,
-    data: {
-        text: &#39;something&#39;,
-        par1: &#39;another&#39;,
-        par2: &#39;one-more&#39;,
-        bool: true
-    }
-});
+<h2 id="with-an-error">With an Error</h2>
+<pre><code class="lang-javascript">atomic(&#39;https://jsonplaceholder.typicode.com/postses&#39;)
+    .then(function (response) {
+        console.log(&#39;success data&#39;, response.data); // xhr.responseText
+        console.log(&#39;success full response&#39;, response.xhr);  // full response
+    })
+    .catch(function (error) {
+        console.log(&#39;error code&#39;, error.status); // xhr.status
+        console.log(&#39;error description&#39;, error.statusText); // xhr.statusText
+    });
 </code></pre>
 
 			</section>
 		</main>
 
 		<!-- Javascript -->
-		<script src="dist/atomic.js"></script>
+		<script src="dist/atomic.polyfills.js"></script>
 		<script>
 			/* http://prismjs.com/download.html?themes=prism&languages=clike+javascript */
 			var _self = (typeof window !== 'undefined')

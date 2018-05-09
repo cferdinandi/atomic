@@ -3,83 +3,48 @@ Atomic is already loaded on this page. See it in action by copy/pasting some of 
 ## `GET`
 
 ```javascript
-atomic.ajax({
-	url: 'https://jsonplaceholder.typicode.com/posts'
-})
-	.success(function (data, xhr) {
-		// What do when the request is successful
-		console.group('success()');
-			console.log('xhr.textResponse:');
-			console.log(data);
-			console.log('xhr:');
-			console.log(xhr);
-		console.groupEnd();
+atomic('https://jsonplaceholder.typicode.com/posts')
+	.then(function (response) {
+		console.log('success data', response.data); // xhr.responseText
+		console.log('success full response', response.xhr);  // full response
 	})
-	.error(function () {
-		// What do when the request fails
-		console.group('error()');
-			console.log( 'The request failed!' );
-		console.groupEnd();
-	})
-	.always(function (data, xhr) {
-		// Code that should run regardless of the request status
-		console.group('always()');
-			console.log('This always runs...');
-		console.groupEnd();
+	.catch(function (error) {
+		console.log('error code', error.status); // xhr.status
+		console.log('error description', error.statusText); // xhr.statusText
 	});
 ```
 
 ## `POST`
 
 ```javascript
-atomic.ajax({
-	type: 'POST',
-	url: 'https://jsonplaceholder.typicode.com/posts',
+atomic('https://jsonplaceholder.typicode.com/posts', {
+	method: 'POST',
 	data: {
 		title: 'foo',
 		body: 'bar',
 		userId: 1
 	}
 })
-	.success(function (data, xhr) {
-		// What do when the request is successful
-		console.group('success()');
-			console.log('xhr.textResponse:');
-			console.log(data);
-			console.log('xhr:');
-			console.log(xhr);
-		console.groupEnd();
+	.then(function (response) {
+		console.log('success data', response.data); // xhr.responseText
+		console.log('success full response', response.xhr);  // full response
 	})
-	.error(function () {
-		// What do when the request fails
-		console.group('error()');
-			console.log( 'The request failed!' );
-		console.groupEnd();
-	})
-	.always(function (data, xhr) {
-		// Code that should run regardless of the request status
-		console.group('always()');
-			console.log('This always runs...');
-		console.groupEnd();
+	.catch(function (error) {
+		console.log('error code', error.status); // xhr.status
+		console.log('error description', error.statusText); // xhr.statusText
 	});
 ```
 
-## JSONP
+## With an Error
 
 ```javascript
-var myCallback = function (data) {
-	console.log(data);
-};
-
-atomic.ajax({
-	type: 'JSONP',
-	url: 'https://jsfiddle.net/echo/jsonp/',
-	callback: 'myCallback',
-	data: {
-		text: 'something',
-		par1: 'another',
-		par2: 'one-more',
-		bool: true
-	}
-});
+atomic('https://jsonplaceholder.typicode.com/postses')
+	.then(function (response) {
+		console.log('success data', response.data); // xhr.responseText
+		console.log('success full response', response.xhr);  // full response
+	})
+	.catch(function (error) {
+		console.log('error code', error.status); // xhr.status
+		console.log('error description', error.statusText); // xhr.statusText
+	});
 ```
