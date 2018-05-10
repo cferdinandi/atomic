@@ -173,11 +173,41 @@
         console.log(&#39;error description&#39;, error.statusText); // xhr.statusText
     });
 </code></pre>
+<h2 id="chaining">Chaining</h2>
+<p>You can make another <code>atomic()</code> call within a <code>.then()</code> callback and pass the response into the chain.</p>
+<pre><code class="lang-javascript">atomic(&#39;https://jsonplaceholder.typicode.com/posts&#39;)
+    .then(function (response) {
+        console.log(&#39;all posts&#39;, response.data); // xhr.responseText
+        return atomic(&#39;https://jsonplaceholder.typicode.com/posts/&#39; + response.data[0].id);
+    })
+    .then(function (post) {
+        console.log(&#39;first post&#39;, post.data);
+    })
+    .catch(function (error) {
+        console.log(&#39;error code&#39;, error.status); // xhr.status
+        console.log(&#39;error description&#39;, error.statusText); // xhr.statusText
+    });
+</code></pre>
 <h2 id="with-an-error">With an Error</h2>
 <pre><code class="lang-javascript">atomic(&#39;https://jsonplaceholder.typicode.com/postses&#39;)
     .then(function (response) {
         console.log(&#39;success data&#39;, response.data); // xhr.responseText
         console.log(&#39;success full response&#39;, response.xhr);  // full response
+    })
+    .catch(function (error) {
+        console.log(&#39;error code&#39;, error.status); // xhr.status
+        console.log(&#39;error description&#39;, error.statusText); // xhr.statusText
+    });
+</code></pre>
+<h2 id="chaining-with-an-error">Chaining with an Error</h2>
+<p>When chaining calls, any errors in the chain will get caught by your <code>.catch()</code> callback, so you only need one.</p>
+<pre><code class="lang-javascript">atomic(&#39;https://jsonplaceholder.typicode.com/posts&#39;)
+    .then(function (response) {
+        console.log(&#39;all posts&#39;, response.data); // xhr.responseText
+        return atomic(&#39;https://jsonplaceholder.typicode.com/postses/&#39; + response.data[0].id);
+    })
+    .then(function (post) {
+        console.log(&#39;first post&#39;, post.data);
     })
     .catch(function (error) {
         console.log(&#39;error code&#39;, error.status); // xhr.status
