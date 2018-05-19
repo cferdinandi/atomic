@@ -1,6 +1,6 @@
 {
 	"name": "atomic",
-	"version": "4.0.1",
+	"version": "4.0.2",
 	"description": "A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.",
 	"main": "./dist/atomic.min.js",
 	"author": {
