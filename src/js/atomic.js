@@ -28,6 +28,7 @@
 			'Content-type': 'application/x-www-form-urlencoded'
 		},
 		responseType: 'text',
+		timeout: null,
 		withCredentials: false
 	};
 
@@ -103,8 +104,14 @@
 	 * @return {String}                  The query string
 	 */
 	var param = function (obj) {
-		if (typeof (obj) === 'string') return obj;
+
+		// If already a string, or if a FormData object, return it as-is
+		if (typeof (obj) === 'string' || Object.prototype.toString.call(obj) === '[object FormData]') return obj;
+
+		// If the content-type is set to JSON, stringify the JSON object
 		if (/application\/json/i.test(settings.headers['Content-type']) || Object.prototype.toString.call(obj) === '[object Array]') return JSON.stringify(obj);
+
+		// Otherwise, convert object to a serialized string
 		var encoded = [];
 		for (var prop in obj) {
 			if (obj.hasOwnProperty(prop)) {
@@ -112,6 +119,7 @@
 			}
 		}
 		return encoded.join('&');
+
 	};
 
 	/**
@@ -124,14 +132,11 @@
 		// Create the XHR request
 		var request = new XMLHttpRequest();
 
-		// Return the request as a Promise
-		return new Promise(function (resolve, reject) {
+		// Setup the Promise
+		var xhrPromise = new Promise(function (resolve, reject) {
 
 			// Setup our listener to process compeleted requests
-			request.onreadystatechange = function () {
-
-				// Only run if the request is complete
-				if (request.readyState !== 4) return;
+			request.onload = function () {
 
 				// Process the response
 				if (request.status >= 200 && request.status < 300) {
@@ -158,6 +163,17 @@
 				}
 			}
 
+			// Set timeout
+			if (settings.timeout) {
+				request.timeout = settings.timeout;
+				request.ontimeout = function (e) {
+					reject({
+						status: 408,
+						statusText: 'Request timeout'
+					});
+				};
+			}
+
 			// Add withCredentials
 			if (settings.withCredentials) {
 				request.withCredentials = true;
@@ -167,6 +183,14 @@
 			request.send(param(settings.data));
 
 		});
+
+		// Cancel the XHR request
+		xhrPromise.cancel = function () {
+			request.abort();
+		};
+
+		// Return the request as a Promise
+		return xhrPromise;
 
 	};
 
@@ -178,9 +202,7 @@
 	var Atomic = function (url, options) {
 
 		// Check browser support
-		if (!supports()) {
-			throw 'This browser does not support the methods used in this plugin.';
-		}
+		if (!supports()) throw 'Atomic: This browser does not support the methods used in this plugin.';
 
 		// Merge options into defaults
 		settings = extend(defaults, options || {});

@@ -86,3 +86,25 @@ atomic('https://jsonplaceholder.typicode.com/posts')
 		console.log('error description', error.statusText); // xhr.statusText
 	});
 ```
+
+## Canceling a Request
+
+In order to work, you must set your `atomic()` method to a variable without `.then()` methods. They can be called on the variable after setting.
+
+```js
+// Setup your request
+var xhr = atomic('https://jsonplaceholder.typicode.com/posts');
+
+// Handle responses
+xhr.then(function (response) {
+		console.log(response.data); // xhr.responseText
+		console.log(response.xhr);  // full response
+	})
+	.catch(function (error) {
+		console.log(error.status); // xhr.status
+		console.log(error.statusText); // xhr.statusText
+	});
+
+// Cancel your request
+xhr.cancel();
+```

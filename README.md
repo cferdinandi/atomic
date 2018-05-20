@@ -142,9 +142,37 @@ atomic('https://some-url.com', {
 		'Content-type': 'application/x-www-form-urlencoded'
 	},
 	responseType: 'text', // {String} the response type (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType)
+	timeout: null, // {Integer} the number of milliseconds a request can take before automatically being terminated
 	withCredentials: false // {Boolean} If true, send credentials with request (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials)
 });
 ```
+
+
+
+## Canceling a Request
+
+While Promises can't be canceled, Atomic does have an internal API for aborting your XHR request using the `cancel()` method.
+
+In order to work, you must set your `atomic()` method to a variable without `.then()` methods. They can be called on the variable after setting.
+
+```js
+// Setup your request
+var xhr = atomic('https://some-url.com');
+
+// Handle responses
+xhr.then(function (response) {
+		console.log(response.data); // xhr.responseText
+		console.log(response.xhr);  // full response
+	})
+	.catch(function (error) {
+		console.log(error.status); // xhr.status
+		console.log(error.statusText); // xhr.statusText
+	});
+
+// Cancel your request
+xhr.cancel();
+```
+
 
 
 ## Migrating from Atomic 3
