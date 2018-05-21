@@ -2,7 +2,7 @@
 	"name": "atomic",
 	"version": "4.1.0",
 	"description": "A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.",
-	"main": "./dist/atomic.min.js",
+	"main": "./dist/atomic.polyfills.min.js",
 	"author": {
 		"name": "Chris Ferdinandi",
 		"url": "http://gomakethings.com"
