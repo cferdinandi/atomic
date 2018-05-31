@@ -1,5 +1,5 @@
 /*!
- * atomic v4.1.0: A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
+ * atomic v4.2.0: A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
  * (c) 2018 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
@@ -1316,7 +1316,10 @@ return Promise$1;
 		var xhrPromise = new Promise(function (resolve, reject) {
 
 			// Setup our listener to process compeleted requests
-			request.onload = function () {
+			request.onreadystatechange = function () {
+
+				// Only run if the request is complete
+				if (request.readyState !== 4) return;
 
 				// Process the response
 				if (request.status >= 200 && request.status < 300) {
