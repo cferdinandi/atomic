@@ -1,5 +1,5 @@
 /*!
- * atomic v4.2.0: A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
+ * atomic v4.2.1: A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
  * (c) 2018 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
@@ -1222,7 +1222,7 @@ return Promise$1;
 	 * @return {Boolean} If true, required methods and APIs are supported
 	 */
 	var supports = function () {
-		return !!window.XMLHttpRequest && !!window.JSON && typeof Promise !== 'undefined' && Promise.toString().indexOf('[native code]') !== -1;
+		return 'XMLHttpRequest' in window && 'JSON' in window && 'Promise' in window;
 	};
 
 	/**

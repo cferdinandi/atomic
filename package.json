@@ -1,6 +1,6 @@
 {
 	"name": "atomic",
-	"version": "4.2.0",
+	"version": "4.2.1",
 	"description": "A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.",
 	"main": "./dist/atomic.polyfills.min.js",
 	"author": {
