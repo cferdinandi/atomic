@@ -42,7 +42,7 @@
 	 * @return {Boolean} If true, required methods and APIs are supported
 	 */
 	var supports = function () {
-		return !!window.XMLHttpRequest && !!window.JSON && typeof Promise !== 'undefined' && Promise.toString().indexOf('[native code]') !== -1;
+		return 'XMLHttpRequest' in window && 'JSON' in window && 'Promise' in window;
 	};
 
 	/**
