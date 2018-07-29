@@ -124,7 +124,7 @@ Make sure these are installed first.
 3. When it's done installing, run one of the task runners to get going:
 	- `gulp` manually compiles files.
 	- `gulp watch` automatically compiles files when changes are made and applies changes using [LiveReload](http://livereload.com/).
-	- `gulp test` runs unit tests.
+	- `npm test`runs unit tests.
 
 
 

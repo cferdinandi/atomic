@@ -1,12 +1,16 @@
 module.exports = function (config) {
 	config.set({
 		basePath : '',
-		autoWatch : true,
+		autoWatch : false,
 		frameworks: ['jasmine'],
-		browsers : ['PhantomJS'],
+		browsers : ['ChromeHeadless'],
+		files: [
+			'../dist/atomic.js',
+			'spec/*.js'
+		],
 		plugins : [
+			'karma-chrome-launcher',
 			'karma-spec-reporter',
-			'karma-phantomjs-launcher',
 			'karma-jasmine',
 			'karma-coverage',
 			'karma-htmlfile-reporter'
