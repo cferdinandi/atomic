@@ -1,6 +1,7 @@
 /*!
- * atomic v4.2.1: A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
- * (c) 2018 Chris Ferdinandi
+ * atomicjs v4.3.0
+ * A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
+ * (c) 2019 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
  */
