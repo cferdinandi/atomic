@@ -50,6 +50,14 @@ You can also use the [jsDelivr CDN](https://cdn.jsdelivr.net/gh/cferdinandi/atom
 <script src="https://cdn.jsdelivr.net/gh/cferdinandi/atomic@4.0.0/dist/atomic.polyfills.min.js"></script>
 ```
 
+**NPM**
+
+You can also use NPM (or your favorite package manager).
+
+```bash
+npm install atomicjs
+```
+
 ### 2. Make your Ajax request.
 
 Pass in the requested URL, and optionally, your desired options. Request method defaults to `GET`.
