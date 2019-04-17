@@ -1,5 +1,5 @@
 /*!
- * atomicjs v4.3.1
+ * atomicjs v4.4.0
  * A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
  * (c) 2019 Chris Ferdinandi
  * MIT License
@@ -157,7 +157,8 @@
 					// If failed
 					reject({
 						status: request.status,
-						statusText: request.statusText
+						statusText: request.statusText,
+						responseText : request.responseText
 					});
 				}
 
