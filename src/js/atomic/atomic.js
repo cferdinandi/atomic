@@ -149,7 +149,8 @@
 					// If failed
 					reject({
 						status: request.status,
-						statusText: request.statusText
+						statusText: request.statusText,
+						responseText : request.responseText
 					});
 				}
 
