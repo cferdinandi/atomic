@@ -141,8 +141,8 @@
 				// Only run if the request is complete
 				if (request.readyState !== 4) return;
 
-				// #77 : prevent timeout errors from being processed here:
-				if (request.status == 0) return;
+				// Prevent timeout errors from being processed
+				if (!request.status) return;
 
 				// Process the response
 				if (request.status >= 200 && request.status < 300) {
