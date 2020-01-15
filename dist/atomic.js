@@ -1,7 +1,7 @@
 /*!
- * atomicjs v4.4.0
+ * atomicjs v4.4.1
  * A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
- * (c) 2019 Chris Ferdinandi
+ * (c) 2020 Chris Ferdinandi
  * MIT License
  * https://github.com/cferdinandi/atomic
  */
@@ -148,6 +148,9 @@
 
 				// Only run if the request is complete
 				if (request.readyState !== 4) return;
+
+				// Prevent timeout errors from being processed
+				if (!request.status) return;
 
 				// Process the response
 				if (request.status >= 200 && request.status < 300) {
