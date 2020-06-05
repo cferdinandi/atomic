@@ -135,7 +135,7 @@
 		// Setup the Promise
 		var xhrPromise = new Promise(function (resolve, reject) {
 
-			// Setup our listener to process compeleted requests
+			// Setup our listener to process completed requests
 			request.onreadystatechange = function () {
 
 				// Only run if the request is complete
