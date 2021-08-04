@@ -1,14 +1,23 @@
+/*!
+ * atomicjs v4.4.1
+ * A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
+ * (c) 2021 Chris Ferdinandi || rewritten by tobithedev
+ * MIT License
+ * https://github.com/cferdinandi/atomic
+ * https://github.com/tobithedev/atomic
+ */
+
 (function (root, factory) {
 	if (typeof define === 'function' && define.amd) {
-		define([], function () {
+		define([], (function () {
 			return factory(root);
-		});
+		}));
 	} else if (typeof exports === 'object') {
 		module.exports = factory(root);
 	} else {
 		window.atomic = factory(root);
 	}
-})(typeof global !== 'undefined' ? global : typeof window !== 'undefined' ? window : this, function (window) {
+})(typeof global !== 'undefined' ? global : typeof window !== 'undefined' ? window : this, (function (window) {
 
 	'use strict';
 
@@ -31,8 +40,44 @@
 		timeout: null,
 		withCredentials: false
 	};
-
-
+  var post_settings = {
+    method: 'POST',
+    username: null,
+    password: null,
+    data: {},
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    responseType: 'text',
+    timeout: null,
+    withCredentials: false
+  };
+  
+  var delete_settings = {
+    method: 'DELETE',
+    username: null,
+    password: null,
+    data: {},
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    responseType: 'text',
+    timeout: null,
+    withCredentials: false
+  };
+  
+  var put_settings = {
+    method: 'PUT',
+    username: null,
+    password: null,
+    data: {},
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    responseType: 'text',
+    timeout: null,
+    withCredentials: false
+  };
 	//
 	// Methods
 	//
@@ -87,14 +132,14 @@
 	var parse = function (req) {
 		var result;
 		if (settings.responseType !== 'text' && settings.responseType !== '') {
-			return {data: req.response, xhr: req};
+			return {data: req.response};
 		}
 		try {
 			result = JSON.parse(req.responseText);
 		} catch (e) {
 			result = req.responseText;
 		}
-		return {data: result, xhr: req};
+		return {data: result};
 	};
 
 	/**
@@ -128,6 +173,7 @@
 	 * @return {Promise}    The XHR request Promise
 	 */
 	var makeRequest = function (url) {
+	  if (!supports()) throw 'AtomicDative: This browser does not support the methods used in this plugin.';
 
 		// Create the XHR request
 		var request = new XMLHttpRequest();
@@ -135,7 +181,7 @@
 		// Setup the Promise
 		var xhrPromise = new Promise(function (resolve, reject) {
 
-			// Setup our listener to process completed requests
+			// Setup our listener to process compeleted requests
 			request.onreadystatechange = function () {
 
 				// Only run if the request is complete
@@ -201,29 +247,38 @@
 
 	};
 
-	/**
-	 * Instatiate Atomic
-	 * @param {String} url      The request URL
-	 * @param {Object} options  A set of options for the request [optional]
-	 */
-	var Atomic = function (url, options) {
+	var get = function(url, options){
+	  
+	  settings = extend(defaults, options || {});
+	  return makeRequest(url);
+	}
+  var post = function(url,options) {
+    settings = extend(post_settings, options || {});
 
-		// Check browser support
-		if (!supports()) throw 'Atomic: This browser does not support the methods used in this plugin.';
+    return makeRequest(url);
+  }
+  var delete_ = function(url,options) {
+    settings = extend(delete_settings, options || {});
+    return makeRequest(url);
+  }
 
-		// Merge options into defaults
-		settings = extend(defaults, options || {});
-
-		// Make request
-		return makeRequest(url);
-
-	};
-
+  var put = function(url, options) {
+    settings = extend(put_settings, options || {});
+    return makeRequest(url);
+  }
 
 	//
 	// Public Methods
 	//
 
-	return Atomic;
+  var init = {
+    get,
+    post,
+    delete: delete_,
+    put
+  }
 
-});
+
+	return init;
+
+}));
