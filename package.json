@@ -1,19 +1,16 @@
 {
-	"name": "atomicjs",
-	"version": "4.4.1",
+	"name": "atomic-dative",
+	"version": "1.0.0",
 	"description": "A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.",
-	"main": "./dist/atomic.polyfills.min.js",
+	"main": "./dist/atomic.js",
 	"author": {
-		"name": "Chris Ferdinandi",
-		"url": "http://gomakethings.com"
+		"name": "Tobithedev",
+		"url": "http://tobithedev.github.io"
 	},
-	"contributors": [
-		"Todd Motto (https://toddmotto.com)"
-	],
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/cferdinandi/atomic"
+		"url": "https://github.com/tobithedev/atomic"
 	},
 	"devDependencies": {
 		"gulp": "4.0.0",

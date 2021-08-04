@@ -6,7 +6,7 @@
 var settings = {
 	clean: true,
 	scripts: true,
-	polyfills: true,
+	polyfills: false,
 	styles: false,
 	svgs: false,
 	copy: true,
@@ -23,7 +23,6 @@ var paths = {
 	output: 'dist/',
 	scripts: {
 		input: 'src/js/*',
-		polyfills: '.polyfill.js',
 		output: 'dist/'
 	},
 	styles: {
@@ -51,14 +50,14 @@ var banner = {
 		'/*!\n' +
 		' * <%= package.name %> v<%= package.version %>\n' +
 		' * <%= package.description %>\n' +
-		' * (c) ' + new Date().getFullYear() + ' <%= package.author.name %>\n' +
+		' * (c) ' + new Date().getFullYear() + ' Chris Ferdinandi || <%= package.author.name %> \n' +
 		' * <%= package.license %> License\n' +
 		' * <%= package.repository.url %>\n' +
 		' */\n\n',
 	min:
 		'/*!' +
 		' <%= package.name %> v<%= package.version %>' +
-		' | (c) ' + new Date().getFullYear() + ' <%= package.author.name %>' +
+		' | (c) ' + new Date().getFullYear() + ' Chris Ferdinandi || <%= package.author.name %>' +
 		' | <%= package.license %> License' +
 		' | <%= package.repository.url %>' +
 		' */\n'

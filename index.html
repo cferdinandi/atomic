@@ -137,18 +137,17 @@
 		<main id="top">
 
 			<nav>
-				<h1>Atomic</h1>
-				<p><a href="https://github.com/cferdinandi/atomic">GitHub</a></p>
+				<h1>AtomicDative</h1>
+				<p><a href="https://github.com/tobithedev/atomic">GitHub</a></p>
 				<hr>
 			</nav>
 
 			<section>
 <p>Atomic is already loaded on this page. See it in action by copy/pasting some of the samples below into the Console window in Developer Tools.</p>
 <h2 id="-get-"><code>GET</code></h2>
-<pre><code class="lang-javascript">atomic(&#39;https://jsonplaceholder.typicode.com/posts&#39;)
+<pre><code class="lang-javascript">atomic.get(&#39;https://jsonplaceholder.typicode.com/posts&#39;)
     .then(function (response) {
         console.log(&#39;success data&#39;, response.data); // xhr.responseText
-        console.log(&#39;success full response&#39;, response.xhr);  // full response
     })
     .catch(function (error) {
         console.log(&#39;error code&#39;, error.status); // xhr.status
@@ -156,8 +155,7 @@
     });
 </code></pre>
 <h2 id="-post-"><code>POST</code></h2>
-<pre><code class="lang-javascript">atomic(&#39;https://jsonplaceholder.typicode.com/posts&#39;, {
-    method: &#39;POST&#39;,
+<pre><code class="lang-javascript">atomic.post(&#39;https://jsonplaceholder.typicode.com/posts&#39;, {
     data: {
         title: &#39;foo&#39;,
         body: &#39;bar&#39;,
@@ -166,7 +164,33 @@
 })
     .then(function (response) {
         console.log(&#39;success data&#39;, response.data); // xhr.responseText
-        console.log(&#39;success full response&#39;, response.xhr);  // full response
+    })
+    .catch(function (error) {
+        console.log(&#39;error code&#39;, error.status); // xhr.status
+        console.log(&#39;error description&#39;, error.statusText); // xhr.statusText
+    });
+</code></pre>
+<h2 id="-put-"><code>PUT</code></h2>
+<pre><code class="lang-javascript">atomic.put(&#39;https://jsonplaceholder.typicode.com/posts&#39;, {
+    data: {
+        title: &#39;foo&#39;,
+        body: &#39;bar&#39;,
+        userId: 1
+    }
+})
+    .then(function (response) {
+        console.log(&#39;success data&#39;, response.data); // xhr.responseText
+    })
+    .catch(function (error) {
+        console.log(&#39;error code&#39;, error.status); // xhr.status
+        console.log(&#39;error description&#39;, error.statusText); // xhr.statusText
+    });
+</code></pre>
+<h2 id="-delete-"><code>DELETE</code></h2>
+<pre><code class="lang-javascript"> var id = 3
+  atomic.delete(&#39;https://jsonplaceholder.typicode.com/posts/&#39;+ id)
+    .then(function (response) {
+        console.log(&#39;success data&#39;, response.data); // xhr.responseText
     })
     .catch(function (error) {
         console.log(&#39;error code&#39;, error.status); // xhr.status
@@ -174,11 +198,11 @@
     });
 </code></pre>
 <h2 id="chaining">Chaining</h2>
-<p>You can make another <code>atomic()</code> call within a <code>.then()</code> callback and pass the response into the chain.</p>
-<pre><code class="lang-javascript">atomic(&#39;https://jsonplaceholder.typicode.com/posts&#39;)
+<p>You can make another <code>atomic.get()</code> call within a <code>.then()</code> callback and pass the response into the chain.</p>
+<pre><code class="lang-javascript">atomic.get(&#39;https://jsonplaceholder.typicode.com/posts&#39;)
     .then(function (response) {
         console.log(&#39;all posts&#39;, response.data); // xhr.responseText
-        return atomic(&#39;https://jsonplaceholder.typicode.com/posts/&#39; + response.data[0].id);
+        return atomic.get(&#39;https://jsonplaceholder.typicode.com/posts/&#39; + response.data[0].id);
     })
     .then(function (post) {
         console.log(&#39;first post&#39;, post.data);
@@ -189,10 +213,9 @@
     });
 </code></pre>
 <h2 id="with-an-error">With an Error</h2>
-<pre><code class="lang-javascript">atomic(&#39;https://jsonplaceholder.typicode.com/postses&#39;)
+<pre><code class="lang-javascript">atomic.get(&#39;https://jsonplaceholder.typicode.com/postses&#39;)
     .then(function (response) {
         console.log(&#39;success data&#39;, response.data); // xhr.responseText
-        console.log(&#39;success full response&#39;, response.xhr);  // full response
     })
     .catch(function (error) {
         console.log(&#39;error code&#39;, error.status); // xhr.status
@@ -201,10 +224,10 @@
 </code></pre>
 <h2 id="chaining-with-an-error">Chaining with an Error</h2>
 <p>When chaining calls, any errors in the chain will get caught by your <code>.catch()</code> callback, so you only need one.</p>
-<pre><code class="lang-javascript">atomic(&#39;https://jsonplaceholder.typicode.com/posts&#39;)
+<pre><code class="lang-javascript">atomic.get(&#39;https://jsonplaceholder.typicode.com/posts&#39;)
     .then(function (response) {
         console.log(&#39;all posts&#39;, response.data); // xhr.responseText
-        return atomic(&#39;https://jsonplaceholder.typicode.com/postses/&#39; + response.data[0].id);
+        return atomic.get(&#39;https://jsonplaceholder.typicode.com/postses/&#39; + response.data[0].id);
     })
     .then(function (post) {
         console.log(&#39;first post&#39;, post.data);
@@ -217,12 +240,11 @@
 <h2 id="canceling-a-request">Canceling a Request</h2>
 <p>In order to work, you must set your <code>atomic()</code> method to a variable without <code>.then()</code> methods. They can be called on the variable after setting.</p>
 <pre><code class="lang-js">// Setup your request
-var xhr = atomic(&#39;https://jsonplaceholder.typicode.com/posts&#39;);
+var xhr = atomic.get(&#39;https://jsonplaceholder.typicode.com/posts&#39;);
 
 // Handle responses
 xhr.then(function (response) {
         console.log(response.data); // xhr.responseText
-        console.log(response.xhr);  // full response
     })
     .catch(function (error) {
         console.log(error.status); // xhr.status
@@ -232,13 +254,19 @@ xhr.then(function (response) {
 // Cancel your request
 xhr.cancel();
 </code></pre>
-
+<footer>
+  <div>
+    <p>&copy; <date></date> Made by Chris Ferdinandi rewritten by Tobithedev.<br />
+    Licensed by MIT</p>
+  </div>
+</footer>
 			</section>
 		</main>
 
 		<!-- Javascript -->
-		<script src="dist/atomic.polyfills.js"></script>
+		<script src="dist/atomic.js"></script>
 		<script>
+		document.querySelector('date').innerHTML = new Date().getFullYear();
 			/* http://prismjs.com/download.html?themes=prism&languages=clike+javascript */
 			var _self = (typeof window !== 'undefined')
 				? window   // if in browser
