@@ -1,10 +1,4 @@
-/*!
- * atomicjs v4.4.1
- * A tiny, Promise-based vanilla JS Ajax/HTTP plugin with great browser support.
- * (c) 2020 Chris Ferdinandi
- * MIT License
- * https://github.com/cferdinandi/atomic
- */
+
 
 (function (root, factory) {
 	if (typeof define === 'function' && define.amd) {
@@ -39,8 +33,45 @@
 		timeout: null,
 		withCredentials: false
 	};
-
-
+  var post_settings = {
+    method: 'POST',
+    username: null,
+    password: null,
+    data: {},
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    responseType: 'text',
+    timeout: null,
+    withCredentials: false
+  };
+  
+  var delete_settings = {
+    method: 'DELETE',
+    username: null,
+    password: null,
+    data: {},
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    responseType: 'text',
+    timeout: null,
+    withCredentials: false
+  };
+  
+  var put_settings = {
+    method: 'PUT',
+    username: null,
+    password: null,
+    data: {},
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    },
+    responseType: 'text',
+    timeout: null,
+    withCredentials: false
+  };
+  let Dative;
 	//
 	// Methods
 	//
@@ -95,14 +126,14 @@
 	var parse = function (req) {
 		var result;
 		if (settings.responseType !== 'text' && settings.responseType !== '') {
-			return {data: req.response, xhr: req};
+			return {data: req.response};
 		}
 		try {
 			result = JSON.parse(req.responseText);
 		} catch (e) {
 			result = req.responseText;
 		}
-		return {data: result, xhr: req};
+		return {data: result};
 	};
 
 	/**
@@ -136,6 +167,8 @@
 	 * @return {Promise}    The XHR request Promise
 	 */
 	var makeRequest = function (url) {
+	  if (!supports()) throw 'AtomicDative: This browser does not support the methods used in this plugin.';
+	  if(!Dative) throw 'AtomicDative: not found'
 
 		// Create the XHR request
 		var request = new XMLHttpRequest();
@@ -209,29 +242,45 @@
 
 	};
 
-	/**
-	 * Instatiate Atomic
-	 * @param {String} url      The request URL
-	 * @param {Object} options  A set of options for the request [optional]
-	 */
-	var Atomic = function (url, options) {
+	var get = function(url, options){
+	  
+	  settings = extend(defaults, options || {});
+	  return makeRequest(url);
+	}
+  var post = function(url,options) {
+    settings = extend(post_settings, options || {});
 
-		// Check browser support
-		if (!supports()) throw 'Atomic: This browser does not support the methods used in this plugin.';
+    return makeRequest(url);
+  }
+  var delete_ = function(url,options) {
+    settings = extend(delete_settings, options || {});
+    return makeRequest(url);
+  }
 
-		// Merge options into defaults
-		settings = extend(defaults, options || {});
-
-		// Make request
-		return makeRequest(url);
-
-	};
-
+  var put = function(url, options) {
+    settings = extend(put_settings, options || {});
+    return makeRequest(url);
+  }
 
 	//
 	// Public Methods
 	//
 
-	return Atomic;
+  var init = {
+    get,
+    post,
+    delete: delete_,
+    put,
+    install
+  }
+  var install = function(dative) {
+    if (Dative) {
+      throw 'AtomicDative: Should be installed once!'
+    }
+    Dative = dative;
+    dative.prototype.atomic = init;
+  }
+
+	return init;
 
 }));
