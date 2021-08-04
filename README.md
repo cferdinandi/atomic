@@ -48,7 +48,7 @@ You can also use the [jsDelivr CDN](https://cdn.jsdelivr.net/gh/tobithedev/atomi
 You can also use NPM (or your favorite package manager).
 
 ```bash
-npm install @atomic/dative
+npm install atomic-dative
 ```
 
 ### 2. Make your Ajax request.
