@@ -97,6 +97,10 @@
 		return {data: result, xhr: req};
 	};
 
+	var isFormData = function(obj) {
+		return Object.prototype.toString.call(obj) === '[object FormData]';
+	}
+
 	/**
 	 * Convert an object into a query string
 	 * @link   https://blog.garstasio.com/you-dont-need-jquery/ajax/
@@ -106,7 +110,7 @@
 	var param = function (obj) {
 
 		// If already a string, or if a FormData object, return it as-is
-		if (typeof (obj) === 'string' || Object.prototype.toString.call(obj) === '[object FormData]') return obj;
+		if (typeof (obj) === 'string' || isFormData(obj)) return obj;
 
 		// If the content-type is set to JSON, stringify the JSON object
 		if (/application\/json/i.test(settings.headers['Content-type']) || Object.prototype.toString.call(obj) === '[object Array]') return JSON.stringify(obj);
@@ -213,6 +217,11 @@
 
 		// Merge options into defaults
 		settings = extend(defaults, options || {});
+
+		// clear Content-Type if provided data is FormData
+		if (isFormData(settings.data)) {
+			delete settings.headers['Content-type'];
+		}
 
 		// Make request
 		return makeRequest(url);
