@@ -79,6 +79,16 @@
 	};
 
 	/**
+	 * Check if the provided obj is a FormData object
+	 * @private
+	 * @param  {Object|Array|String} obj The object
+	 * @return {Bool}
+	 */
+	var isFormData = function(obj) {
+		return Object.prototype.toString.call(obj) === '[object FormData]';
+	};
+
+	/**
 	 * Parse text response into JSON
 	 * @private
 	 * @param  {String} req The response
@@ -96,10 +106,6 @@
 		}
 		return {data: result, xhr: req};
 	};
-
-	var isFormData = function(obj) {
-		return Object.prototype.toString.call(obj) === '[object FormData]';
-	}
 
 	/**
 	 * Convert an object into a query string
