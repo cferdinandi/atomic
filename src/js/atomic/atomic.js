@@ -79,6 +79,16 @@
 	};
 
 	/**
+	 * Check if the provided obj is a FormData object
+	 * @private
+	 * @param  {Object|Array|String} obj The object
+	 * @return {Bool}
+	 */
+	var isFormData = function(obj) {
+		return Object.prototype.toString.call(obj) === '[object FormData]';
+	};
+
+	/**
 	 * Parse text response into JSON
 	 * @private
 	 * @param  {String} req The response
@@ -106,7 +116,7 @@
 	var param = function (obj) {
 
 		// If already a string, or if a FormData object, return it as-is
-		if (typeof (obj) === 'string' || Object.prototype.toString.call(obj) === '[object FormData]') return obj;
+		if (typeof (obj) === 'string' || isFormData(obj)) return obj;
 
 		// If the content-type is set to JSON, stringify the JSON object
 		if (/application\/json/i.test(settings.headers['Content-type']) || Object.prototype.toString.call(obj) === '[object Array]') return JSON.stringify(obj);
@@ -213,6 +223,11 @@
 
 		// Merge options into defaults
 		settings = extend(defaults, options || {});
+
+		// clear Content-Type if provided data is FormData
+		if (isFormData(settings.data)) {
+			delete settings.headers['Content-type'];
+		}
 
 		// Make request
 		return makeRequest(url);

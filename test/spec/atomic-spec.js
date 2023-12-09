@@ -95,6 +95,19 @@ describe('atomic', function () {
 					.toHaveBeenCalledWith('Content-type', 'application/json');
 		});
 
+		it('should not be set when using FormData', function() {
+			atomic.ajax({
+				url: '/endpoint',
+				headers: {
+					'Content-type': 'application/json'
+				},
+				data: new FormData()
+			});
+
+			expect(XMLHttpRequest.prototype.setRequestHeader)
+					.not.toHaveBeenCalledWith('Content-type', 'application/json');
+		});
+
 	});
 
 });
