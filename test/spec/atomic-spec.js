@@ -95,7 +95,7 @@ describe('atomic', function () {
 					.toHaveBeenCalledWith('Content-type', 'application/json');
 		});
 
-		it('should not set Content-type when using FormData', function() {
+		it('should not be set when using FormData', function() {
 			atomic.ajax({
 				url: '/endpoint',
 				headers: {
